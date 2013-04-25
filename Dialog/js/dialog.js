@@ -51,7 +51,8 @@ $.ns('UI.Dialog');
 			
 			width : 'auto',
 			height : 'auto',
-			content : ''
+			content : '',
+			skin : 'skin'
 			
 		},options || {});
 		
@@ -59,7 +60,7 @@ $.ns('UI.Dialog');
 		
 		var _createTmpl = function(){
 
-			var html = '<table id="'+ _root +'" class="dialog-wrapper">' + 
+			var html = '<table id="'+ _root +'" class="dialog-'+ that.skin +'-wrapper">' + 
 							'<tbody>' +
 								'<tr>' +
 									'<td class="dialog-border-top-left"></td>' +
@@ -90,25 +91,44 @@ $.ns('UI.Dialog');
 			});
 		};
 		
-		var _init = function(){
-			_createTmpl();
-		};
-		
-		_init();
-		
 		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法
 		this.getRoot = function(){
 			return _root;
 		};
 		
+		var _init = function(){
+			_createTmpl();
+			that.center();
+		};
+		
+		_init();
+		
+		
 	};
 	
 	
 	$.extend(Dialog.prototype,{
-	
+		
+		//使对话框水平、垂直居中
+		center : function(){
+			var dialog = $('#' + this.getRoot()),
+				doc = $(document),				
+				clientWidth = $(window).width(),
+				clientHeight = $(window).height();
+				
+			dialog.css({
+				left : (clientWidth - dialog.outerWidth()) / 2 + doc.scrollLeft() ,
+				top : (clientHeight - dialog.outerHeight()) / 2 + doc.scrollTop()
+			});
+			
+			document.title = clientHeight - dialog.outerHeight();
+			document.title = dialog.outerHeight();
+		},
+		
 		setContent : function(content){
 			
 			$('#' + this.getRoot() + '-content').html(content);
+			this.center();
 		},
 		
 		destroy : function(){
@@ -192,7 +212,9 @@ $.ns('UI.Dialog');
 			for(var i = 0;i < buttonsArray.length;i++){
 				wrapper.append(buttonsArray[i]);
 			}
-						
+			
+			//每次内容有所改变，则相对的居中位置也会发生变化
+			this.center();
 		}
 	});
 	
@@ -236,12 +258,15 @@ $.ns('UI.Dialog');
 })(jQuery,window);
 
 $(function(){
-	
+	/*
 	var dialog = UI.Dialog({
 		content : 'Dialog is a super class'
 	});
-
-	var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
+	*/
+	$('#btn').bind('click',function(e){
+		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
+	});
+	/*
 	var alert2 = UI.Dialog.Alert({
 		text : 'alter2 -- with custom made buttons',
 		buttons : [{
@@ -280,6 +305,6 @@ $(function(){
 			console.log('Fuck it, it\'s done!');
 		}
 	});
-
+	*/
 });
 
