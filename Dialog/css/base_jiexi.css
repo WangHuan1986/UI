@@ -1,0 +1,1797 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin:0;
+	padding:0;
+}
+fieldset, img {
+	border:0;
+}
+abbr, acronym {
+	border:0;
+	font-variant:normal;
+}
+:focus {
+	outline:0;
+}
+address, caption, cite, code, dfn, em, th, var, optgroup {
+	font-style:inherit;
+	font-weight:inherit;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+abbr, acronym {
+	border:0;
+	font-variant:normal;
+}
+input, button, textarea, select, optgroup, option {
+	font-family:inherit;
+	font-size:inherit;
+	font-style:inherit;
+	font-weight:inherit;
+}
+input, button, select, textarea {
+	outline:none;
+}
+textarea {
+	resize:none;
+}
+/*@purpose To enable resizing for IE */
+/*@branch For IE6-Win, IE7-Win */
+input, button, textarea, select {
+*font-size:100%;
+}
+ul, ol {
+	list-style:none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+caption, th {
+	text-align:left;
+}
+sup, sub {
+	font-size:100%;
+	vertical-align:baseline;
+}
+/* remember to highlight inserts somehow! */
+del {
+	text-decoration:line-through;
+}
+blockquote, q {
+	quotes:none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content:'';
+	content:none;
+}
+:link, :visited, ins {
+	text-decoration:none;
+}
+/* IF HTML5 */
+article, aside, canvas, dialog, figure, footer, header, hgroup, nav, section, video {
+	display:block;
+}
+/* LAYOUT */
+html {
+	-webkit-text-size-adjust:none;
+	-webkit-font-smoothing:antialiased;	
+
+}
+body {
+	font-family:Tahoma,Verdana,STHeiTi,simsun,sans-serif;
+	font-size:12px;
+	width:100%;	
+	background: url("http://jximg.com/image/jiexi/bg.png") repeat;
+	min-width:980px;
+}
+/*div, ul, dl, section, nav, aside {zoom:1;}
+div:after, ul:after, dl:after, section:after, nav:after, aside:after {content:"."; display:block; clear:both; height:0; visibility:hidden;}*/
+.hide {
+	display:none;
+}
+* html .clearfix {
+	height: 1%;
+}
+.clearfix {
+	zoom:1;
+}
+.clearfix:after {
+	content:".";
+	display:block;
+	height:0;
+	visibility:hidden;
+	clear:both;
+}
+a{
+	color:#000;
+	cursor:pointer;
+}
+a:hover {
+	text-decoration:underline;
+}
+.clear {
+	clear:both;
+}
+.container{
+	margin:0 auto;
+	width:980px;
+	padding-top:20px;
+	min-height:500px;
+}
+
+/*头部样式*/
+.head_wrap{
+	width:100%;
+	margin:0 auto;
+	background:url("http://jximg.com/image/jiexi/head-dotted.png") repeat-x;
+	position:relative;
+	*zoom:1;
+	z-index:100;
+}
+/*.head_bg{
+	background:url("http://jximg.com/image/jiexi/head_x.png") repeat-x;
+	width:100%;
+	position:relative;
+	*zoom:1;
+	z-index:50;
+	height:12px;
+	overflow:hidden;
+}
+
+.head_x{
+	background:url("http://jximg.com/image/jiexi/head_x.png") repeat-x;
+	width:100%;
+	height:12px;
+	overflow:hidden;
+}*/
+.head{
+	width:980px;
+	margin:0 auto;
+}
+.head .logo{
+	float:left;
+	margin:5px 0 0 140px;
+	width:94px;
+	height:33px;
+	background:url("http://jximg.com/image/jiexi/jiexi-logo-all.png") no-repeat 0 -33px;
+}
+.head .logo:hover{
+	background:url("http://jximg.com/image/jiexi/jiexi-logo-all.png") no-repeat;
+}
+.head_left{
+	float:left;
+}
+.head_city{
+	float:left;
+	display:inline;
+	margin:8px 0 0 10px;
+	*zoom:1;
+	z-index:70;
+}
+.head_search{
+	float:left;
+	background:url("http://jximg.com/image/jiexi/search.png") no-repeat;
+	width:193px;
+	height:28px;
+	margin:8px 0 0;
+}
+.head_search div{
+	width:155px;
+	height:24px;
+	line-height:24px;
+	padding:0 5px;
+	float:left;
+	margin:1px 0 0;
+}
+.head_search div input{
+	width:155px;
+	height:24px;
+	line-height:24px;
+	border:0;
+	color:#aaa;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	.head_search div input {line-height:normal;}
+}
+
+
+.head_search .head_submit{
+	float:left;
+	width:28px;
+	height:28px;
+	display:block;
+	cursor:pointer;
+	border:0;
+}
+.head_search .head_submit.on, .head_search .head_submit:hover{
+	background:url("http://jximg.com/image/jiexi/serach_hover.png") no-repeat right 0;
+}
+#cityList{
+	position:absolute;
+	top:27px;
+	left:29px;
+	display:none;
+}
+
+.head_city  span{
+	display:block;
+	float:left;
+	line-height:28px;
+	color:#888;
+	padding-right:5px;
+}
+.head_city .city{
+	color:#888;
+	background:url("http://jximg.com/image/jiexi/city.png") no-repeat;
+	display:block;
+	width:52px;
+	height:28px;
+	float:left;
+	padding-left:10px;
+	line-height:28px;
+}
+.head_city a.on, .head_city a.city:hover{
+	background:url("http://jximg.com/image/jiexi/city.png") no-repeat;
+	text-decoration:none;
+}
+.head_city a.on:hover{
+	text-decoration:none;
+}
+.head_city ul li a{
+	color:#4a2c3d;
+	text-decoration:none;
+	height:27px;
+	line-height:27px;
+	display:block;
+	padding-left:9px;
+}
+.head_layout{
+	width:100%;
+	height:45px;
+	position:relative;
+	z-index:50;
+	*zoom:1;	
+}
+.head_middle{
+	width:980px;
+	margin:0 auto;
+}
+.head_middle .head_item{
+	float:left;
+	padding-left:218px;
+	display:inline;
+}
+.head_middle .head_item-left{
+	position:relative;
+	*zoom:1;
+	float:left;
+	margin-right:23px;
+}
+.head_middle .head_item .all{
+	display:block;
+	width:103px;
+	height:33px;
+	background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat 11px 6px;
+	position:relative;
+	float:left;
+	top:2px;
+	left:0;
+	z-index:2;
+
+}
+.head_middle .head_item .all:hover, .head_middle .head_item .on{
+	background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat -190px 0;
+}
+.head_item .raiders{
+	display:block;
+	width:64px;
+	height:17px;
+	float:left;
+	margin:8px 0 0 0;
+	background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat -109px 1px;
+	position:relative;
+	*zopom:1;
+}
+.head_item .raiders em, .head_middle .head_nav a.plan em, .head_middle .head_nav a.budget em, .head_middle .head_nav a.wish em, .head_right a.list em{
+	background:url("http://jximg.com/image/jiexi/step_1.png") no-repeat;
+	display:block;
+	position:absolute;
+	width:84px;
+	height:31px;
+	left:-10px;
+	top:-8px;
+	z-index:300;
+}
+.head_middle .head_nav a.wish em{
+	left:-3px;
+}
+.head_right a.list em{
+	left:-7px;
+	background:url("http://jximg.com/image/jiexi/step.png") no-repeat;
+	width:49px;
+	height:31px;
+}
+.head_item .raiders:hover{
+	background:url("http://jximg.com/image/jiexi/head_nav.png") no-repeat  0 -17px;
+}
+.head_item_list{
+	position:absolute;
+	top:33px;
+	left:0;
+	width:155px;
+	z-index:1;
+	border:2px solid #e4e4e4;
+	border-bottom-right-radius:3px;
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-left-radius:3px;
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-top-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	-webkit-box-shadow:0 2px 0 rgba(34, 25, 25, 0.4);	
+	-moz-box-shadow:0 2px 0 rgba(34, 25, 25, 0.4);	
+    box-shadow: 0 2px 0 rgba(34, 25, 25, 0.4);
+	background:#fff;
+	z-index:200px;	
+	display:none;
+}
+.head_middle .head_item ul li{
+	float:left;
+	width:70px;
+	margin-right:15px;
+	overflow:hidden;
+    white-space:nowrap; 
+}
+.head_middle .head_item ul li.no_margin{
+	margin-right:0;
+}
+.head_middle .head_item ul li a{
+	color:#4a2c3d;
+	display:block;
+	height:30px;
+	line-height:30px;
+	padding:0 11px;
+
+}
+.head_middle .head_item ul li a:hover{
+	color:#bd427b;
+	text-decoration:none;
+	background:#fbf1f6;
+
+}
+
+.head_middle .head_nav li{
+	float:left;
+    margin-right:33px;
+}
+.head_middle .head_nav a{	
+	float:left;
+	display:block;
+}
+.head_middle .head_nav a.wish{
+	width:50px;
+	height:17px;
+    background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat -307px 0;
+	position:relative;
+	*zoom:1;
+
+}
+.head_middle .head_nav a.wish em{
+	left:-18px;
+}
+.head_middle .head_nav a.wish span{
+	display:block;
+	float:left;
+	width:26px;
+	height:17px;
+	text-align:center;
+	font-size:10px;
+	color:#bd427b;
+	background:url("http://jximg.com/image/jiexi/head.png") no-repeat -92px -47px;
+	position:absolute;
+	top:-7px;
+	right:-25px;
+
+}
+.head_middle .head_nav a.wish:hover span{
+	color:#f770a6;
+	
+
+}
+.head_middle .head_nav a.wish:hover{
+    background:url("http://jximg.com/image/jiexi/head_nav.png") no-repeat -66px -17px;
+	text-decoration:none;
+
+}
+.head_middle .head_nav a.plan:hover{
+    background:url("http://jximg.com/image/jiexi/head_nav.png") no-repeat -118px -17px;
+
+}
+.head_middle .head_nav a.budget:hover{
+    background:url("http://jximg.com/image/jiexi/head_nav.png") no-repeat -66px -35px;
+
+}
+.head_middle .head_nav a.plan{
+	width:64px;
+	height:17px;
+    background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat -391px 1px;
+	position:relative;
+	*zoom:1;
+}
+.head_middle .head_nav a.budget{
+	width:65px;
+	height:17px;
+    background:url("http://jximg.com/image/jiexi/head_nav-new.png") no-repeat -487px 0;
+	position:relative;
+	*zoom:1;
+
+}
+.head_right{
+	float:right;
+	padding-top:3px;
+}
+
+.head_right a, .head_right .name{
+	float:left;
+	display:block;
+	color:#888;
+	margin-left:10px;
+	margin-top:11px;
+}
+.head_right .name{
+	background:url("http://jximg.com/image/jiexi/head_line.png") no-repeat right center;
+	padding-right:10px;
+	position:relative;
+	*zoom:1;
+	+top:-2px;
+	top:0\0;
+	_top:0;
+}
+.head_right .name a { margin-top:0;}
+
+.head_right a:hover{
+	color:#ca347a;
+}
+.head_city ul li a:hover{
+	color:#ca347a;
+	background:#fbf1f6;
+}
+.head_right a.account{
+	height:18px;
+	background: url("http://jximg.com/image/jiexi/nav_icon.gif") no-repeat right 11px;
+	margin:0;
+	position:relative;
+	*zoom:1;
+	z-index:2;
+	border:1px solid #fff;
+	border-bottom:0;
+	padding:5px 15px 0 8px;
+	border-top-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+}
+.head_right a.account:hover{ color:#888;}
+.head_right a.account em{
+	background: url("http://jximg.com/image/jiexi/icon_bubble.png") no-repeat;
+	display:block;
+	position:absolute;
+	width:22px;
+	height:19px;
+	right:-12px;
+	top:-7px;
+	color:#fff;
+	line-height:13px;
+	text-align:center;
+	padding-left:2px;
+	font-size:11px;
+	font-style:normal;
+	display:none;
+}
+
+.head_right a.on{	
+    border:1px solid #ddd;
+	border-bottom:0;
+	text-decoration:none;
+}
+.head_right .merchant_warp{
+	float:left;
+	background: url("http://jximg.com/image/jiexi/head_line.png") no-repeat left 8px;
+	margin:5px 0 0 10px;
+	padding-left:10px;
+	position:relative;
+	*zoom:1;
+}
+.head_right .merchant_warp .merchant{
+	display:block;
+	height:18px;
+	padding:5px 0 0 7px;
+	padding-right:20px;
+	margin:0;
+	border:1px solid #fff;
+	border-bottom:0;
+	border-top-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	background: url("http://jximg.com/image/jiexi/nav_icon.gif") no-repeat right 10px;
+}
+ .head_right .merchant:hover { color:#888;}
+.head_right .merchant_warp .on{
+	border:1px solid #ddd;
+	border-bottom:0;
+}
+.head_right .merchant_warp .merchant_list{
+	position:absolute;
+	top:20px;
+	right:0;
+	_right:-1px;
+	border:1px solid #ddd;
+	border-top:0;
+	z-index:700;
+	padding:5px 0 0 0;
+	background:#fff;
+	width:75px;
+	border-bottom-right-radius:3px;
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-left-radius:3px;
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-top-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	-webkit-box-shadow:0 2px 0 rgba(34, 25, 25, 0.4);	
+	-moz-box-shadow:0 2px 0 rgba(34, 25, 25, 0.4);	
+
+
+}
+.head_right .merchant_warp .merchant_list li{
+	clear:both;
+}
+.head_right .merchant_warp .merchant_list li a{
+	margin:0;
+	display:block;
+	height:27px;
+	line-height:27px;
+	padding:0 0 0 7px;
+	color:#4a2c3d;
+	float:none;
+}
+.head_right .merchant_warp .merchant_list li a:hover{
+	background:#fbf1f6;
+	color:#bd427b;
+}
+.head_account-list{
+	position:relative;
+	*zoom:1;
+	float:left;
+	margin:5px 0 0;
+}
+.head_account-list .account-list{
+	position:absolute;
+	top:24px;
+	left:0;
+	width:98px;
+	border:1px solid #e4e4e4;
+	border-top:0;
+	background:#fff url(http://jximg.com/image/jiexi/nav_line_bg.gif) no-repeat 1000px 0;
+	z-index:1;
+	padding-top:3px;
+	border-bottom-right-radius:3px;
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-left-radius:3px;
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+}
+.head_account-list .account-list li{
+	clear:both;	
+}
+.head_account-list .account-list li a{
+	margin:0;
+	padding: 0 0 0 7px;
+	color:#4a2c3d;
+	display:block;
+	height:27px;
+	line-height:27px;
+	white-space:nowrap; 
+	float:none;
+}
+.head_account-list .account-list li a:hover{
+	text-decoration:none;
+	color:#bd427b;
+	background:#fbf1f6;
+}
+.head_right a.list{
+	position:relative;
+	*zoom:1;
+	margin-right:10px;
+	z-index:10;
+}
+.head_right a:hover{
+	text-decoration:none;
+}
+.head_right a.list:hover span{
+	color:#bd427b;
+}
+.head_right a.list span{
+	position:absolute;
+	top:-12px;
+	right:-21px;
+	width:22px;
+	height:18px;
+	text-align:center;
+	line-height:15px;
+	background:url("http://jximg.com/image/jiexi/head.png") no-repeat -92px -29px;
+	color:#888;
+	font-size:10px;
+	z-index:10;
+}
+.head_tip{
+	background:url("http://jximg.com/image/jiexi/head_tip-bg.png") no-repeat;
+	width:330px;
+	height:66px;
+	margin:0 auto;
+	padding:55px 0 0 330px;
+	position:relative;
+	z-index:49;
+	top:-46px;
+}
+.head_tip a{
+	height:39px;
+	width:90px;
+	display:block;
+	float:left;
+	margin-left:10px;
+}
+.head_wish, .head_budget, .head_plan, .head_book{
+	background:url("http://jximg.com/image/jiexi/head_wish_bg.png") no-repeat;
+	width:663px;
+	height:121px;
+	margin:0 auto;
+	position:relative;
+	*zoom:1;
+	top:-48px;
+}
+.head_budget{
+	background:url("http://jximg.com/image/jiexi/head_budget.png") no-repeat;
+}
+.head_book{
+	background:url("http://jximg.com/image/jiexi/book_title.png") no-repeat;
+}
+.head_plan{
+	background:url("http://jximg.com/image/jiexi/head_plan_bg.png") no-repeat;
+}
+.head_wish a, .head_budget a, .head_plan a, .head_book a{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat 0 -83px;
+	display:block;
+	position:absolute;
+	right:17px;
+	top:55px;
+	width:26px;
+	height:25px;
+}
+.head_wish a:hover, .head_budget a:hover, .head_plan a:hover, .head_book a:hover{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat -28px -83px;
+}
+.head_tip .bt_login{
+	width:91px;
+	background:url("http://jximg.com/image/jiexi/reg-all.png") no-repeat -188px -141px;
+}
+.head_tip .bt_login:hover{
+	background:url("http://jximg.com/image/jiexi/reg-all.png") no-repeat -283px bottom;
+}
+.head_tip .bt_reg{
+	background:url("http://jximg.com/image/jiexi/reg-all.png") no-repeat 0 bottom;
+}
+.head_tip .bt_reg:hover{
+	background:url("http://jximg.com/image/jiexi/reg-all.png") no-repeat -93px bottom;
+}
+.head_tip .bt_more:hover{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat 0 -40px;
+}
+.head_tip .bt_more{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat;
+}
+.content-wrapper{
+width:100%;
+}
+
+.bt_book{
+	background:url("http://jximg.com/image/jiexi/index-bts.png") no-repeat;
+	text-align:center;
+	width:89px;
+	height:28px;
+	line-height:28px;
+	color:#6b2244;
+	display:block;
+	border:0;
+	cursor:pointer;
+}
+.bt_book:hover{
+	background:url("http://jximg.com/image/jiexi/index-bts.png") no-repeat 0 -29px;
+	text-decoration:none;
+}
+
+ .index_bread-title a:hover{
+	color:#bd427b;
+	text-decoration:none;
+}
+
+.index_bread_title{
+	border-bottom:1px solid #ccc;
+	padding-bottom:10px;
+	width:980px;
+	margin:20px auto 0;
+}
+.index_bread_left, .index_bread_-tab{
+	float:left;
+}
+.index_bread_left h1{
+	float:left;
+	height:26px;
+	text-indent:-9999px;
+	display:inline;
+	margin:5px 30px 0 0;
+}
+.index_bread_left h1.wish{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat -65px -275px;
+	width:79px;
+}
+.index_bread_left h1.budget{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat -95px -302px;
+	width:52px;
+}
+.index_bread_left h1.plan{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat 0 -273px;
+	width:52px;
+}
+.index_bread_left h1.book{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat 0 -302px;
+	width:78px;
+}
+.index_bread_left h1.book_list{
+	background:url("http://jximg.com/image/jiexi/budger-list-title.png") no-repeat;
+	width:156px;
+}
+.index_bread_left h1.news{
+	background:url("http://jximg.com/image/jiexi/news.png") no-repeat;
+	width:104px;
+}
+.index_bread-tab {
+	float:left;
+}
+.index_bread-tab a{
+	display:block;
+	float:left;
+	height:38px;
+	margin-right:10px;
+	padding-left:10px;
+    cursor:default;
+}
+.index_bread-tab a span{
+	display:block;
+	float:left;
+	height:38px;
+	padding-right:10px;
+	line-height:38px;
+	font-weight:bold;
+	font-size:16px;
+	color:#553848;
+}
+.index_bread-tab a span b{
+	display:block;
+	width:12px;
+	height:30px;
+	float:left;
+	margin:5px 0 0;
+}
+.index_bread-tab a span i, .index_bread-tab a span strong{
+	float:left;
+}
+.index_bread-tab a span em{
+	float:left;
+	font-style:normal;
+	margin-right:5px;
+}
+.index_bread-tab a span b.icon_left{
+	background:url("http://jximg.com/image/jiexi/icon_plan.png") no-repeat left -80px;
+	margin-right:10px;
+}
+.index_bread-tab a span b.icon_right{
+	background:url("http://jximg.com/image/jiexi/icon_plan.png") no-repeat right -80px;
+	margin-left:10px;
+}
+.index_bread-tab a:hover{
+	text-decoration:none;
+}
+.index_bread-tab a span i{
+	font-style:normal;
+	height:38px;
+	margin-right:5px;
+}
+.index_bread-tab a.off{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat;
+	cursor:pointer;
+}
+.index_bread-tab a.on, .index_bread-tab a.off:hover{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat left -154px;
+	text-decoration:none;
+	cursor:pointer;
+
+}
+.index_bread-tab a.off span{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat right -38px;
+	color:#bd427b;
+}
+.index_bread-tab a.on span, .index_bread-tab a.off:hover span{
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat right -192px;
+	color:#553848;
+	
+}
+.index_bread_right{
+	float:right;
+}
+.index_bread-kind{
+	position:relative;
+	*zoom:1;
+	float:left;
+	z-index:10;
+}
+.index_bread-kind a.more{
+	float:left;
+	display:block;
+	width:95px;
+	height:39px;
+	line-height:39px;
+	text-align:center;
+	background:url("http://jximg.com/image/jiexi/bread.png") no-repeat 0 -230px;
+	color:#666;
+}
+.index_bread-kind a.more:hover{
+	text-decoration:none;
+}
+.index_bread-item{
+	position:absolute;
+	left:0;
+	top:40px;
+	border:2px solid #e5e5e5;
+	background:#FFF;
+	border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+	border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+	padding:0 0 10px 10px;
+	width:140px;
+}
+.index_bread-width{
+	width:130px;
+}
+.index_bread-item li{
+	float:left;
+	width:60px;
+	margin-right:10px;
+	padding-top:15px;
+}
+.index_bread-item li.no_margin{
+	margin-right:0;
+}
+.index_bread-item li a{
+	color:#553848;
+}
+.index_bread-item li a:hover{
+	color:#bd427b;
+	text-decoration:none;
+}
+.index_bread-share{
+	float:left;
+	display:inline;
+	height:39px;
+	background:url("http://jximg.com/image/jiexi/index-bread.png") no-repeat right -39px;
+	width:185px;
+	
+}
+.bshare-custom{
+	float:left;
+}
+.index_bread_title-wrap{
+	height:33px;
+	width:226px;
+	padding:6px 0 0 10px;
+	float:left;
+	background:url("http://jximg.com/image/jiexi/index-bread.png") no-repeat left 0;
+}
+.index_bread-share strong{
+	display:block;
+	float:left;
+	font-weight:normal;
+	color:#666;
+	float:left;
+	line-height:26px;
+	*line-height:28px;
+	
+}
+.index_bread-share .index_bread-share-icon{
+	float:left;
+}
+.index_bread-share .index_bread-share-icon a{
+	float:left;
+	width:16px;
+	height:16px;
+	margin-right:10px;
+}
+.index_bread-share .index_bread-share-icon a.renren{
+	background:url("http://jximg.com/image/jiexi/share.png") no-repeat 0 0;
+}
+.index_bread-share .index_bread-share-icon a.qq{
+	background:url("http://jximg.com/image/jiexi/share.png") no-repeat -52px 0;
+}
+.index_bread-share .index_bread-share-icon a.q-zone{
+	background:url("http://jximg.com/image/jiexi/share.png") no-repeat -78px 0;
+}
+.index_bread-share .index_bread-share-icon a.sina{
+	background:url("http://jximg.com/image/jiexi/share.png") no-repeat -26px 0;
+}
+.index_bread-share .index_bread-share-icon a.add{
+	background:url("http://jximg.com/image/jiexi/share.png") no-repeat right 0;
+}
+.head_checkbox {	
+	padding-left:20px;
+	height:14px;
+	line-height:14px;
+	overflow:hidden;
+	position:absolute;
+	bottom:20px;
+	left:255px;
+	color:#6a6065;
+	cursor:pointer;
+}
+.head_checkbox-on{
+	background:url("http://jximg.com/image/jiexi/tip.gif") no-repeat -97px -58px;
+}
+.head_checkbox-off{
+	background:url("http://jximg.com/image/jiexi/tip.gif") no-repeat -96px -89px;	 
+}
+
+.jx_waterfall{
+position:relative;
+}
+
+/*首页弹窗*/
+.pop_layout{
+	position:relative;
+	width:755px;
+	z-index:500;
+	background:url("http://jximg.com/image/jiexi/pop_bottom.png") no-repeat 0 bottom;
+	padding-bottom:10px;
+}
+.pop_layout a.close{
+	position:absolute;
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat 0 -83px;
+	width:26px;
+	height:25px;
+	display:block;
+	right:-5px;
+	top:-5px;
+}
+.pop_layout a.close:hover{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat -28px -83px;
+}
+.pop_top{
+	height:13px;
+	width:749px;
+	background:url("http://jximg.com/image/jiexi/pop_top.png")  no-repeat;
+	overflow:hidden;
+}
+.pop_middle{
+	width:749px;
+	background:url("http://jximg.com/image/jiexi/pop_bg.png") repeat-y;
+}
+.pop_top_head{
+	background:url("http://jximg.com/image/jiexi/pop_top_head.png") repeat-x 0 bottom;
+	margin:0 8px 0 4px;
+	padding:20px 20px 30px;
+}
+.pop_top_head h1, .pop_top_head p{
+	width:500px;
+	word-wrap:break-word;
+}
+.pop_top_head h1 a{
+	font-size:24px;
+	color:#4a2c3d;
+	font-weight:normal;
+	font-family:"微软雅黑","黑体";
+}
+.pop_top_head h1 a:hover{
+	color:#bd427b;
+	text-decoration:none;
+}
+.pop_top_head h1 span{
+	font-size:15px;
+	color:#4a2c3d;
+	font-weight:bold;
+	font-family:"微软雅黑","黑体";
+	padding:0 0 0 10px;
+}
+.pop_top_head p{
+	color:#4a2c3d;
+	font-size:14px;
+	padding:10px 0 0;
+}
+.pop_top_head a.more{
+	display:block;
+	font-size:14px;
+	color:#ca347a;
+	float:left;
+	padding:10px 0 0;
+}
+.pop_bts{
+	position:absolute;
+	right:30px;
+	top:23px;
+}
+.pop_bts a{
+	display:block;
+	background: url("http://jximg.com/image/jiexi/terminal_btn_bg.png") no-repeat;
+    color: #6B2244;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    height: 43px;
+    line-height: 43px;
+    width: 79px;
+	margin-left:10px;
+}
+.pop_bts a.book{
+	text-align:center;
+}
+
+.pop_bts a.like_gray {background-position:-180px 0; width:39px;padding-left:40px;}
+.pop_bts a.like_gray:hover { background-position:-180px -52px;}
+.pop_bts a:hover{
+	text-decoration:none;
+}
+.pop_bts a.like {
+    background-position: -91px 0;
+    padding-left: 40px;
+    width: 39px;
+}
+.pop_bts a.like:hover{
+	background-position: -91px -52px;
+}
+.pop_bts a.book:hover{
+	background-position: 0 -52px;
+}
+.pop_container{
+	padding:20px 25px 20px 23px;
+}
+.pop_container .big_pic{
+	width:700px;
+	overflow:hidden;
+	text-align:center;
+	border-bottom:1px solid #ddd;
+	padding-bottom:20px;
+}
+.pop_container h2{
+	margin:15px 0 9px 0;
+	color:#4a2c3d;
+	font-weight:bold;
+	font-size:16px;
+}
+
+.pop_list li{
+	margin-right:4px;
+	float:left;
+}
+.pop_list li.no_margin{
+	margin-right:0;
+}
+.pop_list li a{
+	width:60px;
+	height:60px;
+	display:block;
+	overflow:hidden;
+}
+.pop_others{
+	border-top:1px solid #ddd;
+	margin-top:20px;
+}
+.pop_others_left{
+	width:363px;
+	float:left;
+}
+.pop_others_left a.pic{
+	width:60px;
+	height:60px;
+	display:block;
+	overflow:hidden;
+	float:left;
+}
+.pop_others_left p a:hover{
+	color:#ca347a;
+}
+.pop_others_left p a{
+	color:#4a2c3d;
+}
+.pop_others_left .pop_others_business{
+	float:left;
+	width:293px;
+	padding-left:10px;
+}
+.pop_others_left .pop_others_business{
+	float:left;
+	width:293px;
+	padding-left:10px;
+}
+.pop_others_left .pop_others_business p{
+	padding-bottom:9px;
+
+}
+.pop_others_right{
+	width:317px;
+	float:left;
+	padding-left:20px;
+}
+.pop_others_line{
+	background:#ddd;
+	width:1px;
+	overflow:hidden;
+	height:84px;
+	float:left;
+	margin:20px 0 0;
+}
+
+
+/*设置弹层*/
+.set_pop-wrap{
+	width:346px;
+	position:absolute;
+	left:39%;
+	top:30%;
+	z-index:500;
+}
+.set_pop-wrap a.close{
+	position:absolute;
+	right:-8px;
+	top:-8px;
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat 0 -83px;
+	display:block;
+	width:26px;
+	height:25px;
+}
+.set_pop-wrap a.close:hover{
+	background:url("http://jximg.com/image/jiexi/tip.png") no-repeat -28px -83px;
+}
+.set_pop-top{
+	width:346px;
+	height:56px;
+	background:url("http://jximg.com/image/jiexi/set_pop-t.png") no-repeat;
+}
+.set_pop-top h1{
+	color:#553848;
+	font-weight:bold;
+	font-size:14px;
+	padding:20px 0 0 20px;
+}
+.set_pop-middle{
+	width:346px;
+}
+.set_pop-bottom{
+	width:346px;
+	height:53px;
+}
+.set_pop-bts {
+	float:right;
+	padding:10px 2px 0 0;
+}
+.set_pop-bts .bt_red, .set_pop-bts .bt_pink{
+	width:55px;
+	height:28px;
+	float:left;
+	border:0;
+	cursor:pointer;
+	text-align:center;
+	line-height:28px;
+	margin-right:10px;
+}
+
+.set_pop-bts .bt_red{
+	background:url("http://jximg.com/image/jiexi/set_pop-red.png") no-repeat;
+	color:#fff;
+}
+.set_pop-bts .bt_pink{
+	background:url("http://jximg.com/image/jiexi/set_pop-pink.png") no-repeat;
+	color:#6b2244;
+}
+.set_pop-bts .bt_red:hover{
+	background:url("http://jximg.com/image/jiexi/set_pop-red-hover.png") no-repeat;
+	text-decoration:none;
+}
+.set_pop-bts .bt_pink:hover{
+	background:url("http://jximg.com/image/jiexi/set_pop-pink-hover.png") no-repeat;
+	text-decoration:none;
+}
+
+
+/*底部样式*/
+
+.copyright{
+	width:980px;
+	margin:16px auto 0 auto;
+	text-align:center;
+}
+.copyright a{
+	margin:0 20px;
+	color:#14549c;
+}
+.footer{
+	width:100%;
+	margin:30px 0 0;
+	background:#f7f7f7;
+	border-top:1px solid #dedcdc;
+	padding:30px 0 15px 0;
+	clear:both;
+}
+.foot_wrap{
+	width:980px;
+	margin:0 auto;
+}
+.foot_wrap .no_border{
+	border-right:0;
+}
+.foot_sub{
+	width:214px;
+	padding:5px 10px 5px 20px;
+	float:left;
+	border-right:1px solid #dedcdc;
+}
+.foot_sub h2{
+	font-weight:bold;
+	font-size:14px;
+	color:#666;
+	padding-bottom:3px;
+}
+.foot_sub .foot_list a{
+	line-height:22px;
+	color:#888;
+	margin-right:10px;
+	white-space:nowrap;
+}
+.foot_sub .foot_list a:hover{
+	color:#cc385e;
+	text-decoration:none;
+}
+.friends_link{
+	width:850px;
+	margin:20px auto 0;
+	text-align:center;
+	padding-left:40px;
+}
+.friends_link a{
+	margin-right:20px;
+	display:block;
+	float:left;
+	text-indent:-99999px;
+	overflow:hidden;
+}
+.friends_link .renren-under{
+	background:url(http://jximg.com/image/jiexi/logo_renren.png) no-repeat;
+	width:181px;
+	height:25px;
+}
+.friends_link .renren{
+	background:url(http://jximg.com/image/jiexi/logo_renren2.png) no-repeat;
+	width:94px;
+	height:23px;
+}
+.friends_link .jiexi{
+	background:url(http://jximg.com/image/jiexi/footer_jiexi.png) no-repeat;
+	width:127px;
+	height:25px;
+}
+.friends_link .nuomi{
+	background:url(http://jximg.com/image/jiexi/logo_nuomi.png) no-repeat;
+	width:117px;
+	height:22px;
+}
+.friends_link .renren-game{
+	background:url(http://jximg.com/image/jiexi/logo_renren_game.png) no-repeat;
+	width:98px;
+	height:23px;
+}
+.friends_link .logo-56{
+	background:url(http://jximg.com/image/jiexi/logo_56.png) no-repeat;
+	width:76px;
+	height:23px;
+}
+
+.wrong_wrap{
+	width:700px;
+	margin:0 auto 200px;
+	min-height:300px;
+	_height:350px;
+}
+body.bg_gray{
+	background:#f7f7f7;	
+}
+.wrong{
+	width:500px;
+	margin:50px auto 0;
+}
+.wrong h2{
+	color:#666;
+	font-size:14px;
+	padding-bottom:10px;
+}
+.wrong h1{
+	color:#333;
+	font-size:14px;
+	font-weight:bold;
+	padding-bottom:10px;
+}
+.wrong p{
+	color:#666;
+	font-size:14px;
+	line-height:28px;
+}
+.wrong p.go{
+	padding:20px 0 0;
+}
+.wrong p.go a{
+	margin-right:30px;
+}
+.wrong p a{
+	color:#e85592;
+	font-size:14px;
+	font-weight:bold;
+}
+.wrong_404{
+	background:url(http://jximg.com/image/jiexi/404.gif) no-repeat;
+	height:71px;
+	padding:0 0 0 140px;
+}
+.wrong_500{
+	background:url(http://jximg.com/image/jiexi/500.png) no-repeat;
+	height:62px;
+	padding:20px 0 0 91px;
+}
+.index_bread-line{
+	background:url(http://jximg.com/image/jiexi/index_bread-line.png) no-repeat;
+	width:2px;
+	height:37px;
+	float:left;
+	overflow:hidden;
+	margin:0 20px 0 10px;
+}
+.index_bread-budget{
+	display:block;
+	float:left;
+	background:url(http://jximg.com/image/jiexi/bt_budgets.png) no-repeat;
+	width:87px;
+	height:38px;
+	text-align:center;
+	line-height:38px;
+	color:#6b2244;
+	margin:0 10px 0 0;
+	font-size:14px;
+}
+.index_bread-budget:hover{
+	background:url(http://jximg.com/image/jiexi/bt_budgets.png) no-repeat 0 -38px;
+	text-decoration:none;
+}
+
+/*引导*/
+.pop_guide{
+	width:679px;
+}
+.pop_guide-top{
+	width:679px;
+	height:9px;
+	overflow:hidden;
+	background:url(http://jximg.com/image/jiexi/guide_t.png) no-repeat;
+}
+.pop_guide-wrap{
+	width:623px;
+	padding:28px;
+	background:url(http://jximg.com/image/jiexi/guide_bg.png) repeat-y;
+}
+.pop_guide-bottom{
+	width:679px;
+	height:10px;
+	overflow:hidden;
+	background:url(http://jximg.com/image/jiexi/guide_b.png) no-repeat;
+}
+.pop_guide-pic{
+	text-align:center;
+}
+.pop_guide-bts{
+	padding:10px 18px 0;
+}
+.pop_guide-bts .next{
+	float:left;
+	width:136px;
+	height:39px;
+	background:url(http://jximg.com/image/jiexi/guide_bt.png) no-repeat;
+	margin:0 0 0 218px;
+}
+.pop_guide-bts .start{
+	float:left;
+	width:180px;
+	height:39px;
+	background:url(http://jximg.com/image/jiexi/guide_start.png) no-repeat;
+	margin:0 0 0 200px;
+}
+.pop_guide-bts .jump{
+	display:block;
+	float:right;
+	color:#b5b5b5;
+	margin:12px 0 0;
+}
+
+.tips-panel { height:78px;display:none;}
+.search_tips_css { background:url(http://jximg.com/image/jiexi/tips_bg.gif) no-repeat; width:149px; height:44px; position:absolute; line-height:20px; color:#888; padding:10px 0 0 8px; z-index:9999;}
+.search_tips_css a { background:url(http://jximg.com/image/jiexi/tips_bg.gif) no-repeat 0 -58px; width:7px; height:7px; overflow:hidden; cursor:pointer; position:absolute; top:12px; right:6px;}
+.search_tips_css a:hover { background-position:-12px -58px;}
+.nav_group{
+	width:32px;
+	float:left;
+	padding:10px 0 0 35px;
+	background:url(http://jximg.com/image/jiexi/group_line.png) no-repeat 5px 10px;
+}
+.nav_group a{
+	background:url(http://jximg.com/image/jiexi/nav_marry.png) no-repeat;
+	width:49px;
+	height:16px;
+	display:block;
+}
+.nav_group a:hover{
+	background:url(http://jximg.com/image/jiexi/nav_marry.png) no-repeat 0 -16px;
+}
+.head .logo:hover {
+	  background: url("http://jximg.com/image/jiexi/index-v3/head.png") no-repeat;
+}
+.head_city span{
+	line-height:17px;
+	width:40px;
+	padding:0;
+}
+.width_980 .head_logo, .width_980 .head_layout, .width_980 .head_wrap{
+	width:980px;
+}
+.width_980 .head_wrap{
+	background:none;
+}
+.width_980  .head_middle form{
+	padding:0 0 0 20px;
+	width:340px;
+}
+.width_980 .search .text{
+	width:250px;
+}
+.search .bt_search:hover{
+	filter:alpha(opacity=70);opacity: .7;
+	text-decoration:none;
+}
+.width_980 .head_middle .nav_list li{
+	margin-right:0;
+}
+.width_980 .foot_wrap{
+	width:980px;
+}
+/*资讯页面内容*/
+.info-container{
+	padding-top:0;
+}
+/*module:资讯导航第二版 by nan.zhao*/
+.info_nav_v2_wrap{
+	background:url(http://jximg.com/image/jiexi/info/info_nav_v2_wrap.jpg) repeat-x left top;
+}
+.info_nav_v2{ 
+	margin:0 auto;
+	padding:0 5px;
+	width:970px;
+	height:64px;
+	height:71px\9;
+}
+.info_nav_v2 dl{
+	float:left;
+	height:64px;
+	padding:0 1px 1px;
+}
+.info_nav_v2 dl dd{
+	float:left;
+	width:64px;
+	height:42px;
+	background:url(http://jximg.com/image/jiexi/info/info_nav_v2_line.jpg) no-repeat right center;	
+}
+.info_nav_v2 dl dd a{
+	display:block;
+	margin-top:6px;
+	height:28px;
+	font:12px/28px "\5FAE\8F6F\96C5\9ED1";
+	color:#666;
+	text-align:center;
+}
+.info_nav_v2 dl dd a:hover{
+	color:#EE5092;
+	text-decoration:none;
+}
+.info_nav_v2 dl dd a.on{
+	margin-top:5px;
+	color:#EE5092;
+	font-weight:bold;
+	background-color:#FFF;
+	border:1px solid #EfE6E9;
+}
+.info_nav_v2 dl dt{
+	display:none;
+	height:22px;
+	text-align:center;
+	font:12px/22px "\5FAE\8F6F\96C5\9ED1";
+	color:#666;
+	background-color:#FFF;
+	clear:both;
+	cursor:default;
+}
+.info_nav_v2 dl.on{
+	padding:0;
+	border:1px solid #F9A7C9;
+	border-top:0 none;
+}
+.info_nav_v2 dl.on dt{
+	background-color:#F7F7F7;
+}
+.info_nav_v2 dl.on dd{
+	background:#FFF;
+}
+.info_nav_v2 dl dd a.info_nav_v2_pic, .info_nav_v2 dl dd a.info_nav_v2_topic{
+	background-image:url(http://jximg.com/image/jiexi/info/info_nav_v2_blod.gif);
+	background-repeat:no-repeat;
+	text-align:left;
+	text-indent:26px;
+}
+.info_nav_v2 dl dd a.info_nav_v2_pic{
+	background-position:0 -40px;
+}
+.info_nav_v2 dl dd a.info_nav_v2_topic{
+	background-position:0 -82px;
+}
+/*
+.info_nav_v2{ 
+	margin:0 auto; 
+	width:978px; 
+}
+.nav_tutorial{
+	height:64px; 
+  	float:left;
+  	border-right: 2px dotted #e4c5d4;
+}
+.nav_tutorial dd{
+	width:69px;
+	float:left;
+}
+.nav_tutorial dt a,.nav_tutorial dd a,.nav_tutorial dt span{
+	display: block;
+	height:32px;
+	text-align:center;
+	color:#d74b87;
+	font:12px/32px \5FAE\8F6F\96C5\9ED1;
+}
+.nav_tutorial dt a,.nav_tutorial dt span{
+	font-size:16px;
+}
+.nav_tutorial dt span{
+	cursor:default;
+}
+.nav_tutorial dd a{
+	font-size:12px;
+}
+.nav_tutorial dt a:hover,.nav_tutorial dd a:hover{
+	text-decoration:none;
+}
+.nav_tutorial dd a:hover{
+	color:#d74b87;
+	background:#fff;
+}
+.nav_tutorial dt a.on,.nav_tutorial dd a.on,.nav_tutorial dt a.on:hover,.nav_tutorial dd a.on:hover{
+	color:#fff;
+	background:#d64b87;
+}
+.nav_tutorial_first dt{
+	width:73px;
+}
+.nav_tutorial_fifth{
+  border:0 none;
+}
+.nav_tutorial_first dt a{
+	padding-left:20px;
+	background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.png);
+	_background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.gif);
+	background-repeat:no-repeat;
+}
+.nav_tutorial_first dt.info_index_picture a{
+	background-position:-471px 10px;
+}
+.nav_tutorial_first dt.info_index_topic a{
+	background-position:-471px -21px;
+}
+.nav_tutorial_first dt.info_index_picture a:hover{
+	background-color:#fff;
+}
+.nav_tutorial_first dt.info_index_topic a:hover{
+	background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.png);
+	_background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.gif);
+	background-color:#fff;
+}
+.nav_tutorial_first dt.info_index_picture a.on,.nav_tutorial_first dt.info_index_picture a.on:hover{
+	background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.png);
+	_background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.gif);
+	background-position:-471px -48px;
+	background-color:#D64B87;
+}
+.nav_tutorial_first dt.info_index_topic a.on,.nav_tutorial_first dt.info_index_topic a.on:hover{
+	background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.png);
+	_background-image:url(http://jximg.com/image/jiexi/index/tutorial_hover.gif);
+	background-position:-471px -79px;
+	background-color:#D64B87;
+}
+.nav_tutorial_first{
+  width:73px;
+}
+.nav_tutorial_second{
+  width:138px;
+}
+.nav_tutorial_third{
+  width:552px;
+}
+.nav_tutorial_fourth{
+  width:138px;
+}
+.nav_tutorial_fifth{
+  width:69px;
+  border:0 none;
+}
+*/
+
+
+
+.head_layout .nav li{
+	position:relative;
+	*zoom:1;
+}
+.attention-list{
+	top:35px;
+	left:0;
+}
+.head .head_layout .nav .nav-list a{
+	clear:both;
+	display:block;
+	float:none;
+	margin:0;
+	width:84px;
+	height:22px;
+	text-align:inherit;
+	line-height:22px;
+	padding:0 0 0 7px;
+}
+.head_layout .nav_list .tool-list a{
+	clear:both;
+	display:block;
+	float:none;
+	margin:0;
+	width:60px;
+	height:20px;
+	text-align:inherit;
+	line-height:20px;
+	padding:0 0 0 7px;
+}
+.head_city .select-wrapper{
+	position:relative;
+	*zoom:1;
+}
+.head .city-list{
+	z-index:500;
+	clear:both;
+	top:16px;
+	left:-1px;
+}
+.head .city-list li {
+    float: left;
+    height: 20px;
+    line-height: 20px;
+	margin-right:0;
+	display:inline;
+}
+.head .head_city .select-wrapper .city-list li a {
+	padding:0;
+	color: #888888;
+    float: left;
+    text-align: center;
+	height: 20px;
+    line-height: 20px;
+    width: 25px;
+}
+.head .head_city .select-wrapper .city-list li a:hover{
+	background:none;
+}
+.head .city-list .city-list-footer {
+     background: url("http://jximg.com/image/jiexi/index-v3/city-list-bottom.gif") no-repeat scroll left bottom transparent;
+	 height:2px;
+	 line-height:2px;
+	 overflow:hidden;
+	 margin:0;
+	 width:135px;
+}
+.head .head_wrap .attention-list{
+	top:22px;
+	width:64px;
+}
+.width_980 .head_nav{
+	padding-bottom:0;
+}
+.width_980 .head_layout, .width_980 .head_nav{
+	height:41px;
+	+height:61px;
+	_height:41px;
+}
+.width_980 .head_layout .nav_list .tool-list{
+	_left:9px;
+}
+.width_980 .head_layout .nav_list .tool-list a{
+	padding:5px 0 0 4px;
+}
+.width_980 .head_layout .nav li{
+	+top:1px;
+}
+.width_980.head_layout .nav_list li{
+	+top:0;
+	height:34px;
+}
+.width_980 .head_layout .nav_list a.tool-on{
+	_line-height:29px;
+	_height:29x;
+	}
+
+/*翻页*/
+.paging-wrap { width:100%; overflow:hidden; padding-top:20px; padding-bottom:15px;}
+.paging-con { float:right;}
+.paging-con a {float:left; border:1px solid #DDD; height:22px; line-height:22px; background:#F7F7F7; margin-right:3px; padding:0 6px;}
+.paging-con a.on { background:#BD427B; color:#FFF;cursor:default;}
+.paging-con a:hover {text-decoration:none;}
+.paging-con a.prev {background:#F7F7F7 url(http://jximg.com/image/jiexi/terminal_btn_bg.png) no-repeat -246px -105px; padding:0 10px 0 19px;}
+.paging-con a.prev-no { background-position:-246px -165px; color:#CCC;cursor:default;}
+.paging-con a.next {margin-right:0;background:#F7F7F7 url(http://jximg.com/image/jiexi/terminal_btn_bg.png) no-repeat -203px -134px;padding:0 19px 0 10px;}
+.paging-con a.next-no { background-position:-203px -195px; color:#CCC; cursor:default;}
+.paging-con a.more { border:1px solid #FFF; background:#FFF;cursor:default;}
+
+.jx-back-top {background:url(http://jximg.com/image/jiexi/top.png) no-repeat -88px 0; width:72px; padding:36px 0;_height:72px;_padding:0; position:fixed; right:10px; bottom:-72px; cursor:pointer; z-index:9999;_position:absolute;_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-72)+'px');}
+.jx-back-top-over { background-position:0 0;}
+
+
+
+.page-width980 {width:980px;margin:0 auto;}
+.page-width1200 {width:1200px;margin:0 auto;}
+.crumbs-bread {padding-top:15px;}/*by nan.zhao*/
+.crumbs-bread a {color: #D74B87;display: block;float: left;}
+.crumbs-bread a.off { color: #666666;
+    cursor: default;
+}
+.crumbs-bread a.off:hover {text-decoration:none;}
+.crumbs-bread span {background: url("http://jximg.com/image/jiexi/hotel/icon.png") no-repeat 0 -142px;
+    display: block;
+    float: left;
+    height: 7px;
+    margin: 4px 10px 0;
+    width: 4px;
+}
