@@ -44,6 +44,30 @@ $.ns('UI.Dialog');
 		return new Button(options);
 	};
 	
+	var tmpl = {
+		
+		frame : '<table id="<%=root%>" class="dialog-<%=skin%>-wrapper">' + 
+					'<tbody>' +
+						'<tr>' +
+							'<td class="dialog-border-top-left"></td>' +
+							'<td class="dialog-border-top-mid" ></td>' +
+							'<td class="dialog-border-top-right"></td>' +
+						'</tr>' +
+						'<tr>' +
+							'<td class="dialog-border-mid-left"></td>' +
+							'<td id="<%=root%>-content" class="dialog-content"><%=content%></td>' +				
+							'<td class="dialog-border-mid-right"></td>' +
+						'</tr>' +
+						 '<tr>' +
+							'<td class="dialog-border-bottom-left"></td>' +
+							'<td class="dialog-border-bottom-mid"></td>' +
+							'<td class="dialog-border-bottom-right"></td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>'
+		
+	};
+	
 	var Dialog = function(options){
 		
 		var that = this;
@@ -59,27 +83,13 @@ $.ns('UI.Dialog');
 		var _root = 'dialog-' + $.rand();
 		
 		var _createTmpl = function(){
-
-			var html = '<table id="'+ _root +'" class="dialog-'+ that.skin +'-wrapper">' + 
-							'<tbody>' +
-								'<tr>' +
-									'<td class="dialog-border-top-left"></td>' +
-									'<td class="dialog-border-top-mid" ></td>' +
-									'<td class="dialog-border-top-right"></td>' +
-								'</tr>' +
-								'<tr>' +
-									'<td class="dialog-border-mid-left"></td>' +
-									'<td id="'+ _root +'-content" class="dialog-content">'+ that.content +'</td>' +				
-									'<td class="dialog-border-mid-right"></td>' +
-								'</tr>' +
-								 '<tr>' +
-									'<td class="dialog-border-bottom-left"></td>' +
-									'<td class="dialog-border-bottom-mid"></td>' +
-									'<td class="dialog-border-bottom-right"></td>' +
-								'</tr>' +
-							'</tbody>' +
-						'</table>';
-			
+	
+			var html = $.MT('frame',tmpl['frame'],{
+				root : _root ,
+				skin : that.skin ,
+				content : that.content
+			});
+	
 			var dialog = $(html);
 			
 			$('body').append(dialog);

@@ -1,0 +1,45 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="../base/css/base_jiexi.css"/>
+<link type="text/css" rel="stylesheet" href="css/dialog.css"/>
+<script src="../base/js/lib.js"type="text/javascript"></script>
+<script src="../base/js/jx-base.js" type="text/javascript"></script>
+<script src="js/dialog.js" type="text/javascript"></script>
+<title>无标题文档</title>
+</head>
+<body>
+<div id="results"></div>
+<script>
+	( function() {
+		dataObject = {
+			'id': 1,
+			'i': 1,
+			'img_url': 'xxx',
+			'web_url': 'xxx',
+			'web_name': '专注web2.0网站前端开发技术',
+			users : [{url : 'url_1' , name : 'xxx' , address : {location : '11' , house : '111'}} , {url : 'url_2' , name : 'yyy'}]
+		};
+		
+		var results = document.getElementById( "results" );
+		
+		var tmplStr = '<div id="<%=id%>" class="<%=(i % 2 == 1 ? "even" : "")%>">' +
+						'<a href="<%=web_url%>"><img class="righted" src="<%=img_url%>"/></a>' +
+						'<p><%=web_name%></p>' +
+						'<% for ( var i = 0; i < users.length; i++ ) { %>'+
+							'<li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>'+
+							'<% if(users[i].address){ %>' +
+								'<li><%=users[i].address.location%></li>' +
+							'<% } %>' +							
+						'<% } %>' +					
+					'</div>';
+		
+		results.innerHTML = tmpl('key-1' ,tmplStr, dataObject );
+		
+		
+		
+	} )();
+</script>
+</body>
+</html>
