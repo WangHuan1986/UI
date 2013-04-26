@@ -91,7 +91,7 @@ $.ns('UI.Dialog');
 			});
 		};
 		
-		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法
+		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法，可以被子类继承
 		this.getRoot = function(){
 			return _root;
 		};
@@ -258,15 +258,13 @@ $.ns('UI.Dialog');
 })(jQuery,window);
 
 $(function(){
-	/*
+
+	var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
+/*
 	var dialog = UI.Dialog({
 		content : 'Dialog is a super class'
 	});
-	*/
-	$('#btn').bind('click',function(e){
-		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
-	});
-	/*
+	
 	var alert2 = UI.Dialog.Alert({
 		text : 'alter2 -- with custom made buttons',
 		buttons : [{
