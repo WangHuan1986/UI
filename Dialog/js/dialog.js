@@ -46,7 +46,7 @@ $.ns('UI.Dialog');
 	
 	var tmpl = {
 		
-		frame : '<table id="<%=root%>" class="dialog-<%=skin%>-wrapper">' + 
+		'frame' : '<table id="<%=root%>" class="dialog-<%=skin%>-wrapper">' + 
 					'<tbody>' +
 						'<tr>' +
 							'<td class="dialog-border-top-left"></td>' +
@@ -64,7 +64,13 @@ $.ns('UI.Dialog');
 							'<td class="dialog-border-bottom-right"></td>' +
 						'</tr>' +
 					'</tbody>' +
-				'</table>'
+				'</table>',
+		
+		'alert' :   '<h1 class="dialog-content-head"><%=title%></h1>' +
+					'<div class="dialog-content-body"><%=text%></div>'+
+					'<div class="dialog-content-foot">' +
+						'<div id="<%=buttonsWrapperId%>" class="dialog-content-foot-buttons"></div>' +
+					'</div>'
 		
 	};
 	
@@ -72,7 +78,7 @@ $.ns('UI.Dialog');
 		
 		var that = this;
 		$.extend(this,{
-			
+			renderTo : 'body',
 			width : 'auto',
 			height : 'auto',
 			content : '',
@@ -92,7 +98,7 @@ $.ns('UI.Dialog');
 	
 			var dialog = $(html);
 			
-			$('body').append(dialog);
+			$(that.renderTo).append(dialog);
 			
 			var content = $('#' + _root + '-content');
 			content.css({
@@ -101,19 +107,19 @@ $.ns('UI.Dialog');
 			});
 		};
 		
-		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法，可以被子类继承
-		this.getRoot = function(){
-			return _root;
-		};
-		
 		var _init = function(){
 			_createTmpl();
 			that.center();
 		};
 		
-		_init();
+		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法，可以被子类继承
+		this.getRoot = function(){
+			return _root;
+		};
 		
-		
+		if(!(arguments[1] && arguments[1] == true)){
+			_init();
+		}
 	};
 	
 	
@@ -169,7 +175,7 @@ $.ns('UI.Dialog');
 			text : '',
 			buttons : [{text : '确定' , callback : function(){that.destroy();}}]
 			
-		},options || {}));
+		},options || {}),true);
 		
 		var	_createBtn = function(buttonData){
 			return UI.Button(buttonData);
@@ -190,13 +196,30 @@ $.ns('UI.Dialog');
 		var _buttonsWrapperId =  that.getRoot() + '-buttons';
 		
 		var _createTmpl = function(){
-			var html =  '<h1 class="dialog-content-head" id="test">'+ that.title +'</h1>' +
-						'<div class="dialog-content-body">'+ that.text +'</div>'+
-						'<div class="dialog-content-foot">' +
-							'<div id="'+ _buttonsWrapperId +'" class="dialog-content-foot-buttons"></div>' +
-						'</div>';
-
-			that.setContent(html);
+		
+			var root = that.getRoot();
+			
+			var alertHtml = $.MT('alert',tmpl['alert'],{
+				title : that.title ,
+				text : that.text ,
+				buttonsWrapperId : _buttonsWrapperId
+			});
+			
+			var html = $.MT('frame',tmpl['frame'],{
+				root :  root,
+				skin : that.skin ,
+				content : alertHtml
+			});
+			
+			
+			$(that.renderTo).append(html);
+			
+			var content = $('#' + root + '-content');
+			content.css({
+				width : that.width,
+				height : that.height
+			});
+			
 		};
 			
 		this.getButtonsWrapperId = function(){
@@ -209,7 +232,9 @@ $.ns('UI.Dialog');
 			that.setButtons(_createBtns());
 		};
 		
-		_init();
+		if(!(arguments[1] && arguments[1] == true)){
+			_init();
+		}
 		
 		
 	};
@@ -255,7 +280,7 @@ $.ns('UI.Dialog');
 						{text : '取消' , callback : function(){that.destroy();}}
 			]
 			
-		},options || {}));
+		},options || {}),true);
 		
 	};
 	
@@ -268,12 +293,46 @@ $.ns('UI.Dialog');
 })(jQuery,window);
 
 $(function(){
-
-	var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
-/*
-	var dialog = UI.Dialog({
-		content : 'Dialog is a super class'
+	$('#btn').bind('click',function(e){
+		var dialog = UI.Dialog({
+			content : 'Dialog is a super class'
+		});
 	});
+/*
+		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
+		var alert2 = UI.Dialog.Alert({
+		text : 'alter2 -- with custom made buttons',
+		buttons : [{
+			text : '确定1',
+			callback : function(){
+				console.log('确定1');
+				alert2.destroy();
+			}
+		},
+		{
+			text : '确定2',
+			callback : function(){
+				console.log('确定2');
+				alert2.destroy();
+			}
+		},
+		{
+			text : '确定3',
+			callback : function(){
+				console.log('确定3');
+				alert2.destroy();
+			}
+		},
+		{
+			text : '取消',
+			callback : function(){
+				console.log('取消');
+				alert2.destroy();
+			}
+		}]
+	});	
+		
+	
 	
 	var alert2 = UI.Dialog.Alert({
 		text : 'alter2 -- with custom made buttons',
