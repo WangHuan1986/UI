@@ -74,7 +74,7 @@ $.ns('UI.Dialog');
 					'</tbody>' +
 				'</table>',
 		
-		'alert' :   '<h1 class="dialog-content-head"><%=title%></h1>' +
+		'alert' :   '<h1 id="title" class="dialog-content-head"><%=title%></h1>' +
 					'<div class="dialog-content-body"><%=text%></div>'+
 					'<div class="dialog-content-foot">' +
 						'<div id="<%=buttonsWrapperId%>" class="dialog-content-foot-buttons"></div>' +
@@ -241,6 +241,12 @@ $.ns('UI.Dialog');
 			});
 			
 		};
+		
+		var _addEvent = function(){
+			$('#title').bind('click',function(e){
+				that.destroy();
+			});
+		};
 			
 		this.getButtonsWrapperId = function(){
 			return _buttonsWrapperId;
@@ -250,6 +256,7 @@ $.ns('UI.Dialog');
 			
 			_createTmpl();
 			that.setButtons(UI.Button.convert(that.buttons));
+			_addEvent();
 		};
 		
 		if(!(arguments[1] && arguments[1] == true)){
@@ -350,6 +357,8 @@ $.ns('UI.Dialog');
 $(function(){
 	$('#btn').bind('click',function(e){
 	
+		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
+		return;
 		var confirm1 =  UI.Dialog.Confirm({
 			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
 			onConfirm : function(){
@@ -364,7 +373,6 @@ $(function(){
 		var dialog = UI.Dialog({
 			content : 'Dialog is a super class'
 		});
-		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
 		
 	
 	var alert2 = UI.Dialog.Alert({
