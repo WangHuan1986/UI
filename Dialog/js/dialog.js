@@ -38,11 +38,20 @@ $.ns('UI.Dialog');
 		
 		return button;
 	};
-
 	
 	UI.Button = function(options){
 		return new Button(options);
 	};
+	
+	//将一个[{text:'',function(){}},{},……]的json转换为实例化后的button数组
+	UI.Button.convert = function(btnArray){
+		var ret = [];
+		for(var i = 0;i < btnArray.length;i++){
+			ret.push(UI.Button(btnArray[i]));
+		}
+		return ret;
+	};
+	
 	
 	var tmpl = {
 		
@@ -229,7 +238,7 @@ $.ns('UI.Dialog');
 		var	_init = function(){
 			
 			_createTmpl();
-			that.setButtons(_createBtns());
+			that.setButtons(UI.Button.convert(that.buttons));
 		};
 		
 		if(!(arguments[1] && arguments[1] == true)){
@@ -260,11 +269,6 @@ $.ns('UI.Dialog');
 	var Confirm = function(options){
 		
 		var that = this;
-		if(typeof options == 'undefined' || typeof options == 'string' ){
-			options = {
-				text : options || ''
-			};
-		}
 
 		Alert.call(this,$.extend({
 			title : '确认提示',
@@ -282,6 +286,44 @@ $.ns('UI.Dialog');
 			
 		},options || {}),true);
 		
+		
+		var _createTmpl = function(){
+		
+			var root = that.getRoot();
+			
+			var alertHtml = $.MT('alert',tmpl['alert'],{
+				title : that.title ,
+				text : that.text ,
+				buttonsWrapperId : that.getButtonsWrapperId()
+			});
+			
+			var html = $.MT('frame',tmpl['frame'],{
+				root :  root,
+				skin : that.skin ,
+				content : alertHtml
+			});
+			
+			
+			$(that.renderTo).append(html);
+			
+			var content = $('#' + root + '-content');
+			content.css({
+				width : that.width,
+				height : that.height
+			});
+			
+		};
+		
+		var	_init = function(){
+			
+			_createTmpl();
+			that.setButtons(UI.Button.convert(that.buttons));
+		};
+		
+		if(!(arguments[1] && arguments[1] == true)){
+			_init();
+		}
+		
 	};
 	
 	$.extend(Confirm.prototype,Alert.prototype);
@@ -294,45 +336,19 @@ $.ns('UI.Dialog');
 
 $(function(){
 	$('#btn').bind('click',function(e){
-		var dialog = UI.Dialog({
-			content : 'Dialog is a super class'
+		var confirm1 =  UI.Dialog.Confirm({
+			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
+			onConfirm : function(){
+				console.log('Fuck it, it\'s done!');
+			}
 		});
 	});
 /*
+		var dialog = UI.Dialog({
+			content : 'Dialog is a super class'
+		});
 		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
-		var alert2 = UI.Dialog.Alert({
-		text : 'alter2 -- with custom made buttons',
-		buttons : [{
-			text : '确定1',
-			callback : function(){
-				console.log('确定1');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '确定2',
-			callback : function(){
-				console.log('确定2');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '确定3',
-			callback : function(){
-				console.log('确定3');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '取消',
-			callback : function(){
-				console.log('取消');
-				alert2.destroy();
-			}
-		}]
-	});	
 		
-	
 	
 	var alert2 = UI.Dialog.Alert({
 		text : 'alter2 -- with custom made buttons',
@@ -366,12 +382,7 @@ $(function(){
 		}]
 	});	
 	
-	var confirm1 =  UI.Dialog.Confirm({
-		text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
-		onConfirm : function(){
-			console.log('Fuck it, it\'s done!');
-		}
-	});
+	
 	*/
 });
 
