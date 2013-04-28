@@ -127,7 +127,7 @@ $.ifLogon = function(r){
 //ipad下
 JX.uaApple = (function(){return (/\((iPhone|iPad|iPod)/i).test(navigator.userAgent);})();
 //IE6下
-JX.IE6 = !!($.browser.msie && ($.browser.version == "6.0"));
+$.IE6 = !!($.browser.msie && ($.browser.version == "6.0"));
 //平板下的鼠标事件
 JX.EVENTS = {
      OVER:(function(){return JX.uaApple?'touchstart':'mouseover';})(),

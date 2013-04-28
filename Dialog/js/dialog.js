@@ -13,7 +13,7 @@ $.ns('UI.Dialog');
 		var that = this,
 			button = null;
 		
-		$.extend(this,{
+		$.extend(true,this,{
 			
 			text : '确定',
 			callback : function(){}
@@ -52,10 +52,9 @@ $.ns('UI.Dialog');
 		return ret;
 	};
 	
-	
 	var tmpl = {
 		
-		'frame' : '<table id="<%=root%>" class="dialog-<%=skin%>-wrapper">' + 
+		'frame' : '<table style="position:<%=position%>;z-index:<%=zIndex%>;" id="<%=root%>" class="dialog-<%=skin%>-wrapper">' + 
 					'<tbody>' +
 						'<tr>' +
 							'<td class="dialog-border-top-left"></td>' +
@@ -86,23 +85,28 @@ $.ns('UI.Dialog');
 	var Dialog = function(options){
 		
 		var that = this;
-		$.extend(this,{
+		$.extend(true,this,{
 			renderTo : 'body',
+			position : 'absolute',
+			zIndex : 1,
 			width : 'auto',
 			height : 'auto',
 			content : '',
-			skin : 'skin'
+			skin : 'skin',
+			cover : false //true代表使用cover的默认值，如果为{},则表示cover的配置参数
 			
 		},options || {});
 		
 		var _root = 'dialog-' + $.rand();
 		
 		var _createTmpl = function(){
-	
+
 			var html = $.MT('frame',tmpl['frame'],{
 				root : _root ,
 				skin : that.skin ,
-				content : that.content
+				position : that.position ,
+				content : that.content,
+				zIndex : that.zIndex
 			});
 	
 			var dialog = $(html);
@@ -126,28 +130,44 @@ $.ns('UI.Dialog');
 			return _root;
 		};
 		
+		var _cover = null;
+		if(this.cover){
+			
+			if(this.cover === true){
+				_cover = UI.Cover();
+			}
+			else{
+				_cover = UI.Cover(this.cover);
+			}
+			
+		}
+		
+		this.getCover = function(){
+			return _cover;
+		};
+		
 		if(!(arguments[1] && arguments[1] == true)){
 			_init();
 		}
+		
 	};
 	
 	
 	$.extend(Dialog.prototype,{
-		
+	
 		//使对话框水平、垂直居中
 		center : function(){
 			var dialog = $('#' + this.getRoot()),
 				doc = $(document),				
-				clientWidth = $(window).width(),
-				clientHeight = $(window).height();
+				clientWin = $(window),
+				clientWidth = clientWin.width(),
+				clientHeight = clientWin.height();
 				
 			dialog.css({
 				left : (clientWidth - dialog.outerWidth()) / 2 + doc.scrollLeft() ,
 				top : (clientHeight - dialog.outerHeight()) / 2 + doc.scrollTop()
 			});
 			
-			document.title = clientHeight - dialog.outerHeight();
-			document.title = dialog.outerHeight();
 		},
 		
 		setContent : function(content){
@@ -157,6 +177,11 @@ $.ns('UI.Dialog');
 		},
 		
 		destroy : function(){
+			
+			var cover = this.getCover();
+			if(cover != null){
+				cover.remove();
+			}
 			
 			$('#' + this.getRoot()).remove();
 			
@@ -177,7 +202,7 @@ $.ns('UI.Dialog');
 			};
 		}
 
-		Dialog.call(this,$.extend({
+		Dialog.call(this,$.extend(true,{
 			
 			width : 280,
 			title : '提示',
@@ -186,22 +211,6 @@ $.ns('UI.Dialog');
 			
 		},options || {}),true);
 		
-		var	_createBtn = function(buttonData){
-			return UI.Button(buttonData);
-		};
-			
-		var	_createBtns = function(){
-				
-			var buttons = that.buttons,
-				ret = [];
-
-			for(var i = 0;i < buttons.length;i++){
-				ret.push(_createBtn(buttons[i]));
-			}
-	
-			return ret;
-		};
-
 		var _buttonsWrapperId =  that.getRoot() + '-buttons';
 		
 		var _createTmpl = function(){
@@ -217,7 +226,9 @@ $.ns('UI.Dialog');
 			var html = $.MT('frame',tmpl['frame'],{
 				root :  root,
 				skin : that.skin ,
-				content : alertHtml
+				position : that.position ,
+				content : alertHtml,
+				zIndex : that.zIndex
 			});
 			
 			
@@ -270,7 +281,7 @@ $.ns('UI.Dialog');
 		
 		var that = this;
 
-		Alert.call(this,$.extend({
+		Alert.call(this,$.extend(true,{
 			title : '确认提示',
 			onConfirm : function(){},
 			buttons : [
@@ -300,7 +311,9 @@ $.ns('UI.Dialog');
 			var html = $.MT('frame',tmpl['frame'],{
 				root :  root,
 				skin : that.skin ,
-				content : alertHtml
+				position : that.position ,
+				content : alertHtml,
+				zIndex : that.zIndex
 			});
 			
 			
@@ -336,12 +349,16 @@ $.ns('UI.Dialog');
 
 $(function(){
 	$('#btn').bind('click',function(e){
+	
 		var confirm1 =  UI.Dialog.Confirm({
 			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
 			onConfirm : function(){
-				console.log('Fuck it, it\'s done!');
-			}
+				
+			},
+			cover : {opacity : 0.5,color : '#000'}
 		});
+		
+		
 	});
 /*
 		var dialog = UI.Dialog({

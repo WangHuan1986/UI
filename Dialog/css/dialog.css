@@ -3,8 +3,11 @@
 .dialog-skin-wrapper {
 	font-size:12px;
 	margin:0 auto;
-	position:absolute;
 }
+
+/*
+	That'll be extra 2px heiger under IE6/7 when no border situnation.
+*/
 .dialog-skin-wrapper .dialog-border-top-left, .dialog-skin-wrapper .dialog-border-top-right, .dialog-skin-wrapper .dialog-border-bottom-left, .dialog-skin-wrapper .dialog-border-bottom-right {
 	width:10px;
 	height:10px;
@@ -45,8 +48,7 @@
 	font-size: 14px;
 	font-weight:bold;
 	height:22px;
-	line-height:22px;
-	_line-height:24px;
+	line-height:24px;	
 	_overflow:hidden;
 	vertical-align:middle;
 	font-family:"宋体";
