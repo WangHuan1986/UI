@@ -2,6 +2,7 @@
   * UI.Dialog contains basic super class -- Dialog 、Alert and Confirm dialog.
   * The technic of inheritance is originated from Douglas Crockford.
   * reference : http://shiningray.cn/private-members-in-javascript.html
+  * Using prototype-based inheritance and composition
 **/
 
 $.ns('UI.Dialog');
@@ -63,7 +64,7 @@ $.ns('UI.Dialog');
 						'</tr>' +
 						'<tr>' +
 							'<td class="dialog-border-mid-left"></td>' +
-							'<td id="<%=root%>-content" class="dialog-content"><%=content%></td>' +				
+							'<td id="<%=root%>-content" class="dialog-content" style="width:<%=width%>;height:<%=height%>;"><%=content%></td>' +				
 							'<td class="dialog-border-mid-right"></td>' +
 						'</tr>' +
 						 '<tr>' +
@@ -86,6 +87,7 @@ $.ns('UI.Dialog');
 		
 		var that = this;
 		$.extend(true,this,{
+			root : 'dialog-' + $.rand(),
 			renderTo : 'body',
 			position : 'absolute',
 			zIndex : 1,
@@ -97,39 +99,23 @@ $.ns('UI.Dialog');
 			
 		},options || {});
 		
-		var _root = 'dialog-' + $.rand();
-		
 		var _createTmpl = function(){
 
 			var html = $.MT('frame',tmpl['frame'],{
-				root : _root ,
+				root : that.root ,
+				width : that.width,
+				height : that.height,
 				skin : that.skin ,
 				position : that.position ,
 				content : that.content,
 				zIndex : that.zIndex
 			});
 	
-			var dialog = $(html);
+			$(that.renderTo).append(html);
 			
-			$(that.renderTo).append(dialog);
-			
-			var content = $('#' + _root + '-content');
-			content.css({
-				width : that.width,
-				height : that.height
-			});
 		};
 		
-		var _init = function(){
-			_createTmpl();
-			that.center();
-		};
-		
-		//特权方法()，利用js闭包特性，让公有方法可以访问到私有属性或方法，可以被子类继承
-		this.getRoot = function(){
-			return _root;
-		};
-		
+		//创建遮罩
 		var _cover = null;
 		if(this.cover){
 			
@@ -142,22 +128,26 @@ $.ns('UI.Dialog');
 			
 		}
 		
-		this.getCover = function(){
-			return _cover;
+		Dialog.prototype.coverObject = _cover;
+		
+		var _init = function(){
+			_createTmpl();
+			that.center();
 		};
 		
-		if(!(arguments[1] && arguments[1] == true)){
-			_init();
-		}
-		
+		_init();
 	};
 	
 	
 	$.extend(Dialog.prototype,{
 	
+		getCover : function(){
+			return Dialog.prototype.coverObject;
+		},
+	
 		//使对话框水平、垂直居中
 		center : function(){
-			var dialog = $('#' + this.getRoot()),
+			var dialog = $('#' + this.root),
 				doc = $(document),				
 				clientWin = $(window),
 				clientWidth = clientWin.width(),
@@ -172,7 +162,7 @@ $.ns('UI.Dialog');
 		
 		setContent : function(content){
 			
-			$('#' + this.getRoot() + '-content').html(content);
+			$('#' + this.root + '-content').html(content);
 			this.center();
 		},
 		
@@ -183,7 +173,7 @@ $.ns('UI.Dialog');
 				cover.remove();
 			}
 			
-			$('#' + this.getRoot()).remove();
+			$('#' + this.root).remove();
 			
 		}
 		
@@ -201,84 +191,52 @@ $.ns('UI.Dialog');
 				text : options || ''
 			};
 		}
-
-		Dialog.call(this,$.extend(true,{
-			
+		
+		var _root = 'alert-' + $.rand(),
+			_buttonsWrapperId =  _root + '-buttons';
+		
+		var config = $.extend(true,this,{
+			root : _root,
 			width : 280,
 			title : '提示',
 			text : '',
 			buttons : [{text : '确定' , callback : function(){that.destroy();}}]
-			
-		},options || {}),true);
-		
-		var _buttonsWrapperId =  that.getRoot() + '-buttons';
+		},options || {});
 		
 		var _createTmpl = function(){
 		
-			var root = that.getRoot();
-			
 			var alertHtml = $.MT('alert',tmpl['alert'],{
-				title : that.title ,
-				text : that.text ,
+				title : config.title ,
+				text : config.text ,
 				buttonsWrapperId : _buttonsWrapperId
 			});
 			
-			var html = $.MT('frame',tmpl['frame'],{
-				root :  root,
-				skin : that.skin ,
-				position : that.position ,
-				content : alertHtml,
-				zIndex : that.zIndex
-			});
-			
-			
-			$(that.renderTo).append(html);
-			
-			var content = $('#' + root + '-content');
-			content.css({
-				width : that.width,
-				height : that.height
-			});
-			
+			return alertHtml;
 		};
 		
-		var _addEvent = function(){
-			$('#title').bind('click',function(e){
-				that.destroy();
-			});
-		};
+		config['content'] = _createTmpl();
+		
+		var _dialog = UI.Dialog(config);
 			
-		this.getButtonsWrapperId = function(){
-			return _buttonsWrapperId;
-		};
-		
-		var	_init = function(){
+		var _setButtons = function(buttonsArray){
 			
-			_createTmpl();
-			that.setButtons(UI.Button.convert(that.buttons));
-			_addEvent();
-		};
-		
-		if(!(arguments[1] && arguments[1] == true)){
-			_init();
-		}
-		
-		
-	};
-	
-	$.extend(Alert.prototype,Dialog.prototype,{
-	
-		setButtons : function(buttonsArray){
-			
-			var wrapper = $('#' + this.getButtonsWrapperId());
+			var wrapper = $('#' + _buttonsWrapperId);
 			for(var i = 0;i < buttonsArray.length;i++){
 				wrapper.append(buttonsArray[i]);
 			}
 			
 			//每次内容有所改变，则相对的居中位置也会发生变化
-			this.center();
-		}
-	});
+			that.center();
+		};
+		
+		var	_init = function(){
+			_setButtons(UI.Button.convert(that.buttons));
+		};
+		
+		_init();
+	};
+	
+	$.extend(Alert.prototype,Dialog.prototype);
 	
 	UI.Dialog.Alert = function(options){
 		return new Alert(options);
@@ -286,9 +244,10 @@ $.ns('UI.Dialog');
 	
 	var Confirm = function(options){
 		
-		var that = this;
-
-		Alert.call(this,$.extend(true,{
+		var that = this,
+			_root = 'confirm-' + $.rand();
+		var config = $.extend(true,this,{
+			root : _root,
 			title : '确认提示',
 			onConfirm : function(){},
 			buttons : [
@@ -302,47 +261,9 @@ $.ns('UI.Dialog');
 						{text : '取消' , callback : function(){that.destroy();}}
 			]
 			
-		},options || {}),true);
+		},options || {});
 		
-		
-		var _createTmpl = function(){
-		
-			var root = that.getRoot();
-			
-			var alertHtml = $.MT('alert',tmpl['alert'],{
-				title : that.title ,
-				text : that.text ,
-				buttonsWrapperId : that.getButtonsWrapperId()
-			});
-			
-			var html = $.MT('frame',tmpl['frame'],{
-				root :  root,
-				skin : that.skin ,
-				position : that.position ,
-				content : alertHtml,
-				zIndex : that.zIndex
-			});
-			
-			
-			$(that.renderTo).append(html);
-			
-			var content = $('#' + root + '-content');
-			content.css({
-				width : that.width,
-				height : that.height
-			});
-			
-		};
-		
-		var	_init = function(){
-			
-			_createTmpl();
-			that.setButtons(UI.Button.convert(that.buttons));
-		};
-		
-		if(!(arguments[1] && arguments[1] == true)){
-			_init();
-		}
+		UI.Dialog.Alert(config);
 		
 	};
 	
@@ -357,55 +278,52 @@ $.ns('UI.Dialog');
 $(function(){
 	$('#btn').bind('click',function(e){
 	
-		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
-		return;
 		var confirm1 =  UI.Dialog.Confirm({
 			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
 			onConfirm : function(){
-				
+				//console.log('in');
 			},
-			cover : {opacity : 0.5,color : '#000'}
+			cover : {opacity : 0.5,color : 'red'}
 		});
-		
 		
 	});
 /*
+		var alert2 = UI.Dialog.Alert({
+			text : 'alter2 -- with custom made buttons',
+			buttons : [{
+				text : '确定1',
+				callback : function(){
+					console.log('确定1');
+					alert2.destroy();
+				}
+			},
+			{
+				text : '确定2',
+				callback : function(){
+					console.log('确定2');
+					alert2.destroy();
+				}
+			},
+			{
+				text : '确定3',
+				callback : function(){
+					console.log('确定3');
+					alert2.destroy();
+				}
+			},
+			{
+				text : '取消',
+				callback : function(){
+					console.log('取消');
+					alert2.destroy();
+				}
+			}]
+		});	
+		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
 		var dialog = UI.Dialog({
 			content : 'Dialog is a super class'
 		});
 		
-	
-	var alert2 = UI.Dialog.Alert({
-		text : 'alter2 -- with custom made buttons',
-		buttons : [{
-			text : '确定1',
-			callback : function(){
-				console.log('确定1');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '确定2',
-			callback : function(){
-				console.log('确定2');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '确定3',
-			callback : function(){
-				console.log('确定3');
-				alert2.destroy();
-			}
-		},
-		{
-			text : '取消',
-			callback : function(){
-				console.log('取消');
-				alert2.destroy();
-			}
-		}]
-	});	
 	
 	
 	*/
