@@ -128,7 +128,7 @@ $.ns('UI.Dialog');
 			
 		}
 		
-		Dialog.prototype.coverObject = _cover;
+		this.coverObject = _cover;
 		
 		var _init = function(){
 			_createTmpl();
@@ -142,7 +142,7 @@ $.ns('UI.Dialog');
 	$.extend(Dialog.prototype,{
 	
 		getCover : function(){
-			return Dialog.prototype.coverObject;
+			return this.coverObject;
 		},
 	
 		//使对话框水平、垂直居中
@@ -167,7 +167,7 @@ $.ns('UI.Dialog');
 		},
 		
 		destroy : function(){
-			
+
 			var cover = this.getCover();
 			if(cover != null){
 				cover.remove();
@@ -186,6 +186,7 @@ $.ns('UI.Dialog');
 	var Alert = function(options){
 		
 		var that = this;
+	
 		if(typeof options == 'undefined' || typeof options == 'string' ){
 			options = {
 				text : options || ''
@@ -215,8 +216,7 @@ $.ns('UI.Dialog');
 		};
 		
 		config['content'] = _createTmpl();
-		
-		var _dialog = UI.Dialog(config);
+		Dialog.call(this,$.extend(true,{},config));
 			
 		var _setButtons = function(buttonsArray){
 			
@@ -263,7 +263,8 @@ $.ns('UI.Dialog');
 			
 		},options || {});
 		
-		UI.Dialog.Alert(config);
+		//这个地方如果用new，那么最后在dialog的方法中的this将不是此处的this所指向的对象
+		Alert.call(this,$.extend(true,{},config));
 		
 	};
 	
@@ -281,9 +282,9 @@ $(function(){
 		var confirm1 =  UI.Dialog.Confirm({
 			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
 			onConfirm : function(){
-				//console.log('in');
-			},
-			cover : {opacity : 0.5,color : 'red'}
+				console.log('in');
+				
+			}
 		});
 		
 	});
