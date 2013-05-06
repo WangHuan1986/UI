@@ -30,6 +30,10 @@
 	margin-top:1px\0;
 }
 
+.year-month span{
+	margin-right:2px;
+}
+
 .right-btn{
 	float:right;
 	margin-right:7px;
