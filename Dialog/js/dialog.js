@@ -2,7 +2,7 @@
   * UI.Dialog contains basic super class -- Dialog 、Alert and Confirm dialog.
   * The technic of inheritance is originated from Douglas Crockford.
   * reference : http://shiningray.cn/private-members-in-javascript.html
-  * Using prototype-based inheritance and composition
+  * Using prototype-based inheritance
 **/
 
 $.ns('UI.Dialog');
@@ -279,16 +279,6 @@ $.ns('UI.Dialog');
 $(function(){
 	$('#btn').bind('click',function(e){
 	
-		var confirm1 =  UI.Dialog.Confirm({
-			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
-			onConfirm : function(){
-				console.log('in');
-				
-			}
-		});
-		
-	});
-/*
 		var alert2 = UI.Dialog.Alert({
 			text : 'alter2 -- with custom made buttons',
 			buttons : [{
@@ -318,8 +308,19 @@ $(function(){
 					console.log('取消');
 					alert2.destroy();
 				}
-			}]
+			}],
+			cover : {color : 'red'}
 		});	
+		
+	});
+/*
+		var confirm1 =  UI.Dialog.Confirm({
+			text : "It's a confirm dialog , inherited from Alert and it'll be automatically destroied after invoking onConfirm callback ",
+			onConfirm : function(){
+				console.log('in');
+			},
+			cover : true
+		});
 		var alert1 = UI.Dialog.Alert('alert1 -- a simple alert,inherited from Dialog');	
 		var dialog = UI.Dialog({
 			content : 'Dialog is a super class'

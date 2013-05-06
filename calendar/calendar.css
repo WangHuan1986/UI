@@ -1,0 +1,65 @@
+@charset "utf-8";
+/* CSS Document */
+
+.calendar-skin-wrapper{
+	width:180px;	
+	background-color:#FFF;
+	margin:0 auto;
+	padding-bottom: 5px;
+}
+
+.calendar-head{
+	background-color:#3777BC;
+	color:#FFF;
+	padding: 3px;
+	height:15px;
+}
+
+
+.left-btn{
+	float:left;
+	margin-left: 7px;
+	margin-top:-1px;
+	cursor:pointer;
+}
+
+.year-month{
+	float: left;
+    margin-left: 38px;
+	_display:inline;
+	margin-top:1px\0;
+}
+
+.right-btn{
+	float:right;
+	margin-right:7px;
+	margin-top:-1px;
+	cursor:pointer;
+}
+
+.calendar-body{
+	margin:5px auto;
+	margin-top:8px\0;
+	*margin-top:8px;
+	_margin-top:5px;
+}
+
+.calendar-body td{
+ 	border: 1px solid #DFDFDF;
+    border-collapse: collapse;
+    padding: 4px;
+    text-align: center;	
+	cursor:pointer;
+}
+
+.calendar-body .weekmark td{
+	border:0;
+	padding-top:0;
+	padding-bottom:5px;
+	cursor: default;
+}
+
+.calendar-body td.not-currentmonth-day{
+	color:#999;
+}
+	
