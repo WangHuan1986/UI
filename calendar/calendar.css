@@ -56,6 +56,11 @@
 	cursor:pointer;
 }
 
+.calendar-body td.selected{
+	background-color: #3777BC;
+    color: #FFFFFF;
+}
+
 .calendar-body .weekmark td{
 	border:0;
 	padding-top:0;
