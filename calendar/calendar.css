@@ -13,6 +13,7 @@
 	color:#FFF;
 	padding: 3px;
 	height:15px;
+	position:relative;
 }
 
 
@@ -32,6 +33,10 @@
 
 .year-month span{
 	margin-right:2px;
+}
+
+.year-month .year , .year-month .month{
+	cursor:pointer;
 }
 
 .right-btn{
@@ -56,6 +61,11 @@
 	cursor:pointer;
 }
 
+.calendar-body td.today{
+	background-color: #EB0113;
+    color: #FFFFFF;
+}
+
 .calendar-body td.selected{
 	background-color: #3777BC;
     color: #FFFFFF;
@@ -70,5 +80,40 @@
 
 .calendar-body td.not-currentmonth-day{
 	color:#999;
+}
+
+.yearlist , .monthlist{
+    background-color: #3777BC;
+    height: 120px;
+    left: 49px;
+    overflow: auto;
+    padding-bottom: 3px;
+    position: absolute;
+    text-align: center;
+    top: 21px;
+    width: 61px;
+	display:none;
+}
+
+.yearlist li a , .monthlist li a{
+	display: block;
+    width: 44px;
+	color:#FFF;
+}
+
+.yearlist li a:hover , .monthlist li a:hover{
+	background-color:#FFF;
+	color:#3777BC;
+	text-decoration:none;
+}
+
+.monthlist{
+	width:35px;
+	left:95px;
+	*left:96px;
+	left:96px\0;
+}
+.monthlist li a{	
+	width:18px;
 }
 	

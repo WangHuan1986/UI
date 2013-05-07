@@ -5,6 +5,7 @@
 
 $.ns('UI.Canlendar');
 
+
 var tmpl = {
 	
 	frame : '<div id="<%=root%>" class="calendar-skin-wrapper">' +
@@ -21,11 +22,24 @@ var tmpl = {
 					'<span>年</span>' +
 					'<span id="<%=root%>-month" class="month"><%=month%></span>' +
 					'<span>月</span>' +
+					'<%=yearlist%>' +
+					'<%=monthlist%>' +
 				'</div>' +
 				'<span id="<%=root%>-nextMon" class="right-btn">&gt;</span>' +
 			'</div>',
 			
-	 
+	yearlist :	'<ul id="<%=root%>-yearlist" class="yearlist">' +
+					'<% for(var i = startyear;i <= endyear;i++){ %>' +
+						'<li><a href="#"><%=i%></a></li>' +
+					'<% } %>' +
+				'</ul>',
+				
+	monthlist :	'<ul id="<%=root%>-monthlist" class="monthlist">' +
+					'<% for(var i = startmonth;i <= endmonth;i++){ %>' +
+						'<li><a href="#"><%=i%></a></li>' +
+					'<% } %>' +
+				'</ul>',		
+	
 	body :	'<table class="calendar-body">' +
 					 '<tbody>' +
 						  '<tr class="weekmark">' +
@@ -45,7 +59,7 @@ var tmpl = {
 							  '<%	if(days[i].notCurrentMonDay){ %>' +
 									 '<td year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day not-currentmonth-day"><%=days[i].day%></td>' +
 							  '<%	}else{ %>' +
-									 '<td year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day"><%=days[i].day%></td>' +
+									 '<td year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day <%if(days[i].ifToday){%>today<%}%>"><%=days[i].day%></td>' +
 							  '<%  } %>' +
 							  '<%	count++; %>' +
 							  '<%	if(count % 7 == 0){ %>' +
@@ -69,6 +83,8 @@ var tmpl = {
 		
 		//当前日历状态
 		this.current = this._getCurrent();
+		//当前被选中的天
+		this.selectedDay = null;
 		
 		this._init();
 		
@@ -99,11 +115,31 @@ var tmpl = {
 				that._goTo(preAndNext.nextYear,preAndNext.nextMonth);
 			});
 			
-			//选取某天
-			$('#' + root + '-body').delegate('.day','click',function(e){
-				console.log(that._getDate($(this)));
+			//点击年份，弹出下拉框
+			var yearlist = $('#' + root + '-year'),
+				monthlist = $('#' + root + '-month');
+			$('#' + root + '-year').bind('click',function(e){
+				if(yearlist.css('display') == 'block'){
+					that._hideYearList();
+				}
+				else{
+					yearlist.show();
+				}
 			});
 			
+			//选取某天
+			$('#' + root + '-body').delegate('.day','click',function(e){
+				var day = $(this);
+				that._selectDay(day);
+				console.log(that._getDate(day));
+			});
+			
+			
+			
+		},
+		
+		_hideYearList : function(){
+			$('#' + this.root + '-year').hide();
 		},
 		
 		//根据给定的当前年月返回上个月和下个月
@@ -116,12 +152,30 @@ var tmpl = {
 			}
 		},
 		
+		_createYearList : function(start,end){
+			return $.MT('yearlist',tmpl['yearlist'],{
+				root : this.root,
+				startyear : 1930,
+				endyear : 2050
+			});
+		},
+		
+		_createMonthList : function(){
+			return $.MT('monthlist',tmpl['monthlist'],{
+				root : this.root,
+				startmonth : 1,
+				endmonth : 12
+			});
+		},
+		
 		_createHead : function(year,month){
 			
 			return $.MT('head',tmpl['head'],{
 				root : this.root,
 				year : year,
-				month : month
+				month : month,
+				yearlist : this._createYearList(),
+				monthlist : this._createMonthList()
 			});
 		},
 		
@@ -191,16 +245,20 @@ var tmpl = {
 		*/
 		_getData : function(year,month){
 			
-			var monthInfo = this._getMonthInfo(year,month);
+			var monthInfo = this._getMonthInfo(year,month),
+				currentMonth = this._getCurrent(),
+				today = currentMonth.year + '' + currentMonth.month +  currentMonth.day;
 			//当前月数据
 			var current  = {},currentDays = [];
 			current.year = monthInfo.year;
 			current.month = monthInfo.month;
 			for(var i = 1;i <= monthInfo.totalDay;i++){
+				var ifToday = today === current.year + '' + current.month + '' + i ? true : false;
 				var day = {
 					"year" : current.year,
 					"month" : current.month,
-					"day" : i
+					"day" : i,
+					"ifToday" : ifToday
 				};
 				currentDays.push(day);
 			}
@@ -321,7 +379,13 @@ var tmpl = {
 		
 		//选中某天
 		_selectDay : function(day){
+		
+			var selectedDay = this.selectedDay;
+			if(selectedDay !== null){
+				selectedDay.removeClass('selected');
+			}
 			day.addClass('selected');
+			this.selectedDay = day;
 		}
 		
 	});
