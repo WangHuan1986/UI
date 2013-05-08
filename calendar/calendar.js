@@ -77,7 +77,9 @@ var tmpl = {
 		
 		$.extend(this,{
 			
-			root : 'calendar-' + $.rand()
+			root : 'calendar-' + $.rand(),
+			id : '', //input的id
+			renderTo : 'body'
 			
 		},options || {});
 		
@@ -86,16 +88,59 @@ var tmpl = {
 		//当前被选中的天
 		this.selectedDay = null;
 		
-		this._init();
+		if(this.id != ''){
+			this._initInput();
+		}
+		else{
+			this._init();
+		}
 		
 	};
 	
 	$.extend(Canlendar.prototype,{
 		
+		_initInput : function(){
+			
+			var that = this;
+			
+			var input = $('#' + this.id);
+				
+			input.bind('keydown',function(e){
+				return false;
+			})
+			.bind('focus',function(e){
+				input.blur();
+				if(!input.data('hasCalendar')){
+					that._init();
+					input.data('hasCalendar',true);
+					//获取输入框位置，并定位日历
+					var position = input.offset();
+					$('#' + that.root).css({
+						position : 'absolute',
+						left : position.left,
+						top : position.top + input.outerHeight()
+					});
+				}
+				
+			})
+			.bind('click',function(e){
+				e.stopPropagation();
+			});
+			
+			$(document).bind('click',function(r){
+				that.destroy();
+				input.removeData('hasCalendar');
+			});
+		},
+		
 		_init : function(){
 			
-			$(this._createTmpl()).appendTo('body');
+			$(this._createTmpl()).appendTo(this.renderTo);
 			this._addEvent();
+		},
+		
+		destroy : function(){
+			$('#' + this.root).remove();
 		},
 		
 		_addEvent : function(){
@@ -103,7 +148,12 @@ var tmpl = {
 			var root = this.root,
 				that = this,
 				current = this._getCalendarCurrent();
-				
+			
+			//阻止日历中的click事件冒泡
+			$('#' + root).bind('click',function(e){
+				e.stopPropagation();
+			});
+			
 			//上个月和下个月按钮
 			$('#' + root + '-preMon').bind('click',function(e){
 				var preAndNext = that._getPreAndNext(current.year,current.month);
@@ -115,16 +165,55 @@ var tmpl = {
 				that._goTo(preAndNext.nextYear,preAndNext.nextMonth);
 			});
 			
-			//点击年份，弹出下拉框
-			var yearlist = $('#' + root + '-year'),
-				monthlist = $('#' + root + '-month');
+			//点击年份或月份，弹出下拉框
+			var yearlist = $('#' + root + '-yearlist'),
+				monthlist = $('#' + root + '-monthlist');
 			$('#' + root + '-year').bind('click',function(e){
-				if(yearlist.css('display') == 'block'){
-					that._hideYearList();
-				}
-				else{
+	
+				if(yearlist.is(':hidden')){
+					monthlist.hide();
 					yearlist.show();
 				}
+				else{
+					that._hideYearList();
+				}
+				
+				e.stopPropagation();
+			});
+			
+			$('#' + root + '-month').bind('click',function(e){
+	
+				if(monthlist.is(':hidden')){
+					yearlist.hide();
+					monthlist.show();
+				}
+				else{
+					that._hideMonthList();
+				}
+				
+				e.stopPropagation();
+			});
+			
+			$(document).bind('click',function(){
+				yearlist.hide();
+				monthlist.hide();
+			});
+			
+			//点选下拉框中的年份或是月份
+			yearlist.delegate('li a','click',function(e){
+				var link = $(this),
+					current = that._getCalendarCurrent();
+				that._goTo(parseInt(link.html()),current.month);
+				yearlist.hide();
+				e.preventDefault();
+			});
+			
+			monthlist.delegate('li a','click',function(e){
+				var link = $(this),
+					current = that._getCalendarCurrent();
+				that._goTo(current.year,parseInt(link.html()));
+				monthlist.hide();
+				e.preventDefault();
 			});
 			
 			//选取某天
@@ -134,12 +223,14 @@ var tmpl = {
 				console.log(that._getDate(day));
 			});
 			
-			
-			
 		},
 		
 		_hideYearList : function(){
-			$('#' + this.root + '-year').hide();
+			$('#' + this.root + '-yearlist').hide();
+		},
+		
+		_hideMonthList : function(){
+			$('#' + this.root + '-monthlist').hide();
 		},
 		
 		//根据给定的当前年月返回上个月和下个月
@@ -397,7 +488,10 @@ var tmpl = {
 })(jQuery,window);
 
 $(function(){
-	UI.Canlendar();
+	
+	UI.Canlendar({
+		id : 'test'
+	});
 });
 
 
