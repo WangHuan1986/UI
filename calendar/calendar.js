@@ -57,9 +57,9 @@ var tmpl = {
 									 '<tr>' +
 							  '<%	} %>' +
 							  '<%	if(days[i].notCurrentMonDay){ %>' +
-									 '<td year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day not-currentmonth-day"><%=days[i].day%></td>' +
+									 '<td id="<%=days[i].id%>" year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day not-currentmonth-day"><%=days[i].day%></td>' +
 							  '<%	}else{ %>' +
-									 '<td year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day <%if(days[i].ifToday){%>today<%}%>"><%=days[i].day%></td>' +
+									 '<td id="<%=days[i].id%>" year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day <%if(days[i].ifToday){%>today<%}%>"><%=days[i].day%></td>' +
 							  '<%  } %>' +
 							  '<%	count++; %>' +
 							  '<%	if(count % 7 == 0){ %>' +
@@ -99,19 +99,23 @@ var tmpl = {
 	
 	$.extend(Canlendar.prototype,{
 		
+		_isDate : function(str){
+			return /^(\d{4})-?(\d{1,2})-?(\d{1,2})$/.test(str);
+		},
+		
 		_initInput : function(){
 			
 			var that = this;
 			
 			var input = $('#' + this.id);
-				
-			input.bind('keydown',function(e){
-				return false;
-			})
-			.bind('focus',function(e){
-				input.blur();
+			input.bind('focus',function(e){
 				if(!input.data('hasCalendar')){
+					var val = $.trim(input.val());
 					that._init();
+					if(that._isDate(val)){
+						var ret = val.match(/^(\d{4})-?(\d{1,2})-?(\d{1,2})$/);
+						that._goTo(ret[1],parseInt(that._transToSingle(ret[2])),parseInt(that._transToSingle(ret[3])));
+					}
 					input.data('hasCalendar',true);
 					//获取输入框位置，并定位日历
 					var position = input.offset();
@@ -220,7 +224,10 @@ var tmpl = {
 			$('#' + root + '-body').delegate('.day','click',function(e){
 				var day = $(this);
 				that._selectDay(day);
-				console.log(that._getDate(day));
+				if(that.id !== ''){
+					$('#' + that.id).val(that._getDate(day));
+					that.destroy();
+				}
 			});
 			
 		},
@@ -346,6 +353,7 @@ var tmpl = {
 			for(var i = 1;i <= monthInfo.totalDay;i++){
 				var ifToday = today === current.year + '' + current.month + '' + i ? true : false;
 				var day = {
+					"id" : current.year + '' + this._transToDouble(current.month) + this._transToDouble(i),
 					"year" : current.year,
 					"month" : current.month,
 					"day" : i,
@@ -363,6 +371,7 @@ var tmpl = {
 			
 			for(var d = lastDayOfPreMon - preDaysCount + 1;d <= lastDayOfPreMon;d++){
 				var day = {
+					"id" : pre.year + '' + this._transToDouble(pre.month) + this._transToDouble(d),
 					"year" : pre.year,
 					"month" : pre.month,
 					"day" : d,
@@ -381,6 +390,7 @@ var tmpl = {
 	
 			for(var d = 1;d <= nextDaysCount;d++){
 				var day = {
+					"id" : next.year + '' + this._transToDouble(next.month) + this._transToDouble(d),
 					"year" : next.year,
 					"month" : next.month,
 					"day" : d,
@@ -411,6 +421,19 @@ var tmpl = {
 			
 		},
 		
+		//将一个双的转换成单的，如将03转换为3
+		_transToSingle : function(s){
+			
+			s = s.toString();
+			if(s.length == 2 && s.search(/0/) == 0){
+				return s.substring(1);
+			}
+			else{
+				return s.toString();
+			}
+			
+		},
+		
 		//返回渲染日历所需要的数据,days : [{year:2013,month:5,day:1,notCurrentMonDay : true}]
 		_getRenderData : function(year,month){
 			var data = this._getData(year,month);
@@ -433,7 +456,7 @@ var tmpl = {
 		},
 		
 		
-		_goTo : function(year,month){
+		_goTo : function(year,month,day){
 		
 			var current = this._getCurrent();
 			if(typeof year === 'undefined' || typeof month === 'undefined'){
@@ -450,6 +473,10 @@ var tmpl = {
 			this.current.year = year;
 			this.current.month = month;
 			
+			if(typeof day !== 'undefined'){
+				var day = $('#' + year + this._transToDouble(month) + this._transToDouble(day));
+				this._selectDay(day);
+			}
 		},
 		
 		/*
@@ -468,15 +495,21 @@ var tmpl = {
 			}
 		},
 		
-		//选中某天
+		/*
+		 * 选中某天
+		 * day可以是jq对象，也可以某天的id
+		 */
 		_selectDay : function(day){
-		
+			if(typeof day ===  'string'){
+				day = $('#' + day);
+			}
 			var selectedDay = this.selectedDay;
 			if(selectedDay !== null){
 				selectedDay.removeClass('selected');
 			}
 			day.addClass('selected');
 			this.selectedDay = day;
+			
 		}
 		
 	});
