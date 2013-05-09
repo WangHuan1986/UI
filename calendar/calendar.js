@@ -56,11 +56,13 @@ var tmpl = {
 							  '<%	if(count % 7 == 0){ %>' +
 									 '<tr>' +
 							  '<%	} %>' +
-							  '<%	if(days[i].notCurrentMonDay){ %>' +
-									 '<td id="<%=days[i].id%>" year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day not-currentmonth-day"><%=days[i].day%></td>' +
-							  '<%	}else{ %>' +
-									 '<td id="<%=days[i].id%>" year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" class="day <%if(days[i].ifToday){%>today<%}%>"><%=days[i].day%></td>' +
-							  '<%  } %>' +
+									'<td id="<%=days[i].id%>" year="<%=days[i].year%>" month="<%=days[i].month%>" day="<%=days[i].day%>" '+ 
+										'class="day'+
+											'<%if(days[i].ifToday){%> today<%}%>'+
+											'<%if(days[i].notCurrentMonDay){%> not-currentmonth-day<%}%>'+
+											'<%if(!days[i].ifValid){%> invalid<%}%>'+
+										'"><%=days[i].day%>' + 
+									'</td>' +
 							  '<%	count++; %>' +
 							  '<%	if(count % 7 == 0){ %>' +
 									 '</tr>' +
@@ -78,15 +80,18 @@ var tmpl = {
 		$.extend(this,{
 			
 			root : 'calendar-' + $.rand(),
-			id : '', //input的id
-			renderTo : 'body'
-			
+			id : '', //日历对应的文本框的id
+			renderTo : 'body', //默认渲染到的容器
+			startyear : 1940, //能够选择的开始年份
+			endyear : 2100,
+			from : null, //20130509，标识此天之前的日期不能被选中，如果写入“today”，则标识当前日期(包括)可以被选中
+			to : null
 		},options || {});
 		
 		//当前日历状态
 		this.current = this._getCurrent();
 		//当前被选中的天
-		this.selectedDay = null;
+		this.selectedDayId = null; //2013-05-08
 		
 		if(this.id != ''){
 			this._initInput();
@@ -162,11 +167,13 @@ var tmpl = {
 			$('#' + root + '-preMon').bind('click',function(e){
 				var preAndNext = that._getPreAndNext(current.year,current.month);
 				that._goTo(preAndNext.preYear,preAndNext.preMonth);
+				that._selectDay(that.selectedDayId);
 			});
 			
 			$('#' + root + '-nextMon').bind('click',function(e){
 				var preAndNext = that._getPreAndNext(current.year,current.month);
 				that._goTo(preAndNext.nextYear,preAndNext.nextMonth);
+				that._selectDay(that.selectedDayId);
 			});
 			
 			//点击年份或月份，弹出下拉框
@@ -222,13 +229,26 @@ var tmpl = {
 			
 			//选取某天
 			$('#' + root + '-body').delegate('.day','click',function(e){
-				var day = $(this);
-				that._selectDay(day);
-				if(that.id !== ''){
+				var day = $(this),	
+					valid = !day.hasClass('invalid');
+					
+				if(valid){
+					that._selectDay(day);
+				}
+				//如果绑定到了一个文本框
+				if(that.id !== '' && valid){
 					$('#' + that.id).val(that._getDate(day));
 					that.destroy();
 				}
+			})
+			//鼠标浮动到日期上边框变色
+			.delegate('.day','mouseenter',function(e){
+				$(this).addClass('hover');
+			})
+			.delegate('.day','mouseleave',function(e){
+				$(this).removeClass('hover');
 			});
+			
 			
 		},
 		
@@ -253,8 +273,8 @@ var tmpl = {
 		_createYearList : function(start,end){
 			return $.MT('yearlist',tmpl['yearlist'],{
 				root : this.root,
-				startyear : 1930,
-				endyear : 2050
+				startyear : this.startyear,
+				endyear : this.endyear
 			});
 		},
 		
@@ -320,29 +340,48 @@ var tmpl = {
 			};
 		},
 		
-		/* 根据某年某月计算出该月的数据信息，pre和next分别包含当月补齐的相邻月份的日期
-			{
-				current : {
-							year : 2013,
-							month : 5 , 
-							days : [{day : 1}},{……}]
-						},
-				
-				pre : {
-							year : 2013,
-							month : 4 , 
-							days : [{day : 1}},{……}]
-					},
-				
-				next : {
-							year : 2013,
-							month : 6 , 
-							days : [{day : 1}},{……}]
-					}
+		//返回20130506
+		_getCurrentStr : function(){
+			var current = this._getCurrent();
+			return current.year + '' + this._transToDouble(current.month) + '' + this._transToDouble(current.day);
+		},
+		
+		/*
+		 *	根据给定的day(20130506)和合法的时间范围(from to)，判断此天是否有效
+		 */
+		_ifValid : function(id){
+			var from = this.from,
+				to = this.to;
+			if(from === null && from === null) return true;
+			var today = this._getCurrentStr();
+			if(from == null){
+				from = true;
 			}
+			if(to == null){
+				to = true;
+			}
+			if(from == 'today'){
+				from = today
+			}
+			if(to == 'today'){
+				to = today;
+			}
+			
+			
+			if(parseInt(id) < parseInt(from)){
+				return false
+			}
+			else{
+				return true;
+			}
+		},
+		
+		/* 
+		 * 根据某年某月计算出该月的数据信息，pre和next分别包含当月补齐的相邻月份的日期,current为当月数据
 		*/
 		_getData : function(year,month){
 			
+			var root = this.root;
 			var monthInfo = this._getMonthInfo(year,month),
 				currentMonth = this._getCurrent(),
 				today = currentMonth.year + '' + currentMonth.month +  currentMonth.day;
@@ -351,13 +390,18 @@ var tmpl = {
 			current.year = monthInfo.year;
 			current.month = monthInfo.month;
 			for(var i = 1;i <= monthInfo.totalDay;i++){
+				//判断是否是今天
 				var ifToday = today === current.year + '' + current.month + '' + i ? true : false;
+				//判断此日期是否有效
+				var ifValid = true,
+					id = parseInt(current.year + '' + this._transToDouble(current.month) + this._transToDouble(i));
 				var day = {
-					"id" : current.year + '' + this._transToDouble(current.month) + this._transToDouble(i),
+					"id" : id + '-' + root,
 					"year" : current.year,
 					"month" : current.month,
 					"day" : i,
-					"ifToday" : ifToday
+					"ifToday" : ifToday,
+					"ifValid" : this._ifValid(id)
 				};
 				currentDays.push(day);
 			}
@@ -370,12 +414,16 @@ var tmpl = {
 			var lastDayOfPreMon =  new Date(pre.year,pre.month,0).getDate();
 			
 			for(var d = lastDayOfPreMon - preDaysCount + 1;d <= lastDayOfPreMon;d++){
+				//判断此日期是否有效
+				var ifValid = true,
+					id = parseInt(pre.year + '' + this._transToDouble(pre.month) + this._transToDouble(d));
 				var day = {
-					"id" : pre.year + '' + this._transToDouble(pre.month) + this._transToDouble(d),
+					"id" : id + '-' + root,
 					"year" : pre.year,
 					"month" : pre.month,
 					"day" : d,
-					"notCurrentMonDay" : true
+					"notCurrentMonDay" : true,
+					"ifValid" : this._ifValid(id)
 				};
 				preDays.push(day);
 			}
@@ -389,12 +437,16 @@ var tmpl = {
 			var nextDaysCount = 7 - date.getDay();//需要显示的下个月的天数
 	
 			for(var d = 1;d <= nextDaysCount;d++){
+				//判断此日期是否有效
+				var ifValid = true,
+					id = parseInt(next.year + '' + this._transToDouble(next.month) + this._transToDouble(d));
 				var day = {
-					"id" : next.year + '' + this._transToDouble(next.month) + this._transToDouble(d),
+					"id" : id + '-' + root,
 					"year" : next.year,
 					"month" : next.month,
 					"day" : d,
-					"notCurrentMonDay" : true
+					"notCurrentMonDay" : true,
+					"ifValid" : this._ifValid(id)
 				};
 				nextDays.push(day);
 			}
@@ -474,7 +526,7 @@ var tmpl = {
 			this.current.month = month;
 			
 			if(typeof day !== 'undefined'){
-				var day = $('#' + year + this._transToDouble(month) + this._transToDouble(day));
+				var day = $('#' + year + this._transToDouble(month) + this._transToDouble(day) + '-' + root);
 				this._selectDay(day);
 			}
 		},
@@ -500,15 +552,18 @@ var tmpl = {
 		 * day可以是jq对象，也可以某天的id
 		 */
 		_selectDay : function(day){
+		
 			if(typeof day ===  'string'){
 				day = $('#' + day);
 			}
-			var selectedDay = this.selectedDay;
-			if(selectedDay !== null){
-				selectedDay.removeClass('selected');
+			var selectedDayId = this.selectedDayId;
+			if(selectedDayId !== null){
+				$('#' + selectedDayId).removeClass('selected');
 			}
-			day.addClass('selected');
-			this.selectedDay = day;
+			if(day.size() > 0){
+				day.addClass('selected');
+				this.selectedDayId = day.attr('id');
+			}
 			
 		}
 		
@@ -523,7 +578,8 @@ var tmpl = {
 $(function(){
 	
 	UI.Canlendar({
-		id : 'test'
+		id : 'test',
+		from : 'today'
 	});
 });
 

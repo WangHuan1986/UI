@@ -16,7 +16,6 @@
 	position:relative;
 }
 
-
 .left-btn{
 	float:left;
 	margin-left: 7px;
@@ -61,16 +60,6 @@
 	cursor:pointer;
 }
 
-.calendar-body td.today{
-	background-color: #EB0113;
-    color: #FFFFFF;
-}
-
-.calendar-body td.selected{
-	background-color: #3777BC;
-    color: #FFFFFF;
-}
-
 .calendar-body .weekmark td{
 	border:0;
 	padding-top:0;
@@ -80,6 +69,27 @@
 
 .calendar-body td.not-currentmonth-day{
 	color:#999;
+}
+
+.calendar-body td.hover{
+	color:#3777BC;
+}
+
+
+.calendar-body td.selected{
+	background-color: #3777BC;
+    color: #FFFFFF;
+}
+
+.calendar-body td.today{
+	background-color: #EB0113;
+    color: #FFFFFF;
+}
+
+.calendar-body td.invalid{
+	background-color: #F3F3F3;
+    color: #FFFFFF;
+	cursor:default;
 }
 
 .yearlist , .monthlist{
