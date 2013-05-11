@@ -172,7 +172,6 @@ var tmpl = {
 			
 			$(document).bind('click',function(r){
 				that.destroy();
-				input.removeData('hasCalendar');
 			});
 		},
 		
@@ -184,6 +183,7 @@ var tmpl = {
 		
 		destroy : function(){
 			$('#' + this.root).remove();
+			$('#' + this.id).removeData('hasCalendar');
 		},
 		
 		_addEvent : function(){
